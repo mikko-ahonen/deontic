@@ -63,7 +63,8 @@ supplying:
   incident" needs the lexicon to say what an incident's date is);
 - **named cadences** that time windows may reference instead of literal
   periods ("every review period");
-- **attester kinds** and what confidence means for each;
+- **attester kinds** and, for designated-system attesters, the **rubrics**
+  they judge under (§9);
 - **a strictness setting** — *permissive*: an unknown verb parses and the
   constraint is reported as skipped, so precision can increase over time;
   *strict*: anything unrecognised is an error, for domains that must fail
@@ -131,7 +132,7 @@ Every sentence is one of a small set of shapes, each carrying a modal:
 | threshold | `The <metric> of <subject> must be at least <quantity> [per <window>].` |
 | cadence | `<subject> must <verb> a <target> every <period>.` |
 | sequencing | `<event> must occur within <duration> after <event>.` |
-| attestation | `<subject> must be attested by [at least N] <attester> [claiming "<text>"] every <period>.` |
+| attestation | `<subject> must be attested by [at least N] <attester> [claiming "<text or rubric-id>"] [with confidence at least <n>] every <period>.` |
 | disjunction | `<subject> must <predicate> or must <predicate>.` |
 
 Predicate verbs come from the lexicon. The shapes do not.
@@ -174,7 +175,7 @@ defines rather than a literal, so a lexicon can retune "quarterly" in one
 place. Evaluation happens *as of* a date, which is an input, not `today`;
 this is what lets a result be recomputed for a past moment.
 
-## 9. Attestation
+## 9. Attestation and rubrics
 
 Some claims are true or false only to a reader: "the policy sets the
 strategic direction", "this change matches its specification". The language
@@ -183,10 +184,45 @@ confirmation** exists: who attested, what they claimed, when, and with what
 confidence. The attester may be a person, a role, or a **designated
 system** — a program, including a language model, that reads and records a
 judgement. The sentence that consumes the attestation is deterministic
-either way, and it is where the threshold on confidence lives.
+either way, and it is where the threshold on confidence lives:
+
+```
+Every change must be attested by the Reviewer claiming review-v3
+  with confidence at least 0.8 within the last 30 days.
+```
+
+An attestation is a fact with at least: the **subject**, the **attester**,
+the **claim**, the **date**, and, for designated systems, a **confidence**
+and the identity of the system that judged. It is evaluated like any other
+fact. Nothing in the language calls a judge; a judge runs elsewhere and
+leaves attestations behind.
+
+**What the claim names.** For a person, the claim is text: what they
+confirmed. For a designated system, the claim names a **rubric** — the
+versioned, written statement of *what is being assessed and by what
+criteria*, which the lexicon supplies next to the attester kind. The word is
+borrowed from grading, a scoring guide with criteria and levels. A rubric
+states the claim in the language's own terms, the inputs the judge is
+given and nothing else, the criteria with a severity scale for findings,
+the output contract that becomes the attestation fact (verdict, findings
+with severity and location, confidence with a stated meaning), which
+systems may execute it, labelled examples that fix what a confidence value
+means, and a version. An edit is a new version.
+
+Rules reference rubrics by id and version, never by content. That is what
+keeps the policy complete and cheap to change: the threshold on confidence,
+the accepted rubric version and the freshness window are sentences in the
+policy, reviewed with everything else; raising the threshold or requiring a
+newer version re-evaluates from stored attestations without asking any judge
+again; and a judgement ages and can be absent exactly like a scan result,
+so the outcome model (§12) applies to it unchanged. A human confirmation and
+a system's judgement are the same kind of fact, so "attested by a human or
+by the Reviewer with confidence at least 0.9" is one sentence rather than a
+special case.
 
 This is how a language that refuses to reason about prose still covers the
-part of any policy that is prose.
+part of any policy that is prose: the reasoning happens outside, under a
+rubric, and only its recorded result enters the world the language judges.
 
 ## 10. Storage form and authoring
 
