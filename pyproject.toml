@@ -1,0 +1,48 @@
+# The deontic constraint language — public grammar, AST and conformance corpus.
+#
+# This repository is deliberately outside telamon's generation. It is public,
+# and what the templates emit is not: the sops Dockerfile stage installs
+# tulisalama-tools over SSH from a private Gitea and wires a hub token, and the
+# CLAUDE.md template injects the fleet's internal coordination section verbatim.
+# Registered in telamon as `managed: none` for inventory and naming only.
+#
+# Published to pypi.org from GitHub Actions via trusted publishing (OIDC), so
+# no API token exists at rest anywhere.
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deontic"
+version = "0.0.0"
+description = "A constraint language for obligation, permission and prohibition"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Mikko Ahonen" }]
+keywords = ["deontic", "constraints", "policy", "obligation", "permission"]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+]
+# Stdlib only. A grammar other people are meant to implement should not drag a
+# parser generator into every consumer's dependency tree.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/mikko-ahonen/deontic"
+Source = "https://github.com/mikko-ahonen/deontic"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
