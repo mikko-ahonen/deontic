@@ -16,6 +16,13 @@ them reviewable by the people who own the policy rather than only by the people
 who own the codebase, and lets more than one evaluator agree on what a rule
 means.
 
+## Design
+
+[docs/design.md](docs/design.md) states what the language is meant to be:
+the closed-class vocabulary, the shapes, filters and paths, attestation,
+the storage form, the interpretation rules, the outcome model, and how it
+relates to Attempto Controlled English and to deontic logic.
+
 ## Conformance
 
 `conformance/` is the normative test data: source text plus the result every
