@@ -11,7 +11,8 @@ from __future__ import annotations
 import json
 
 from .lexer import tokens
-from .parser import Parser, clean
+from .errors import NoShape
+from .parser import Miss, Parser, clean
 
 _VALUE_OPS = {
     "is": "is", "is_not": "is not", "contains": "contains", "starts_with": "starts with",
@@ -30,8 +31,11 @@ def parse_filter(text: str) -> dict:
         source += "."
     _, toks = tokens(source)
     p = Parser(toks)
-    node = p.or_expr()
-    p.end()
+    try:
+        node = p.or_expr()
+        p.end()
+    except Miss:
+        raise NoShape("not a filter") from None
     return clean(node)
 
 

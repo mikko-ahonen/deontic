@@ -116,7 +116,9 @@ changes only add.
 ## Canonical form
 
 Every JSON object in an expected result omits keys whose value is `null`,
-`false`, an empty list or an empty object. An implementation produces its
+an empty list, an empty object, or a `false` flag (`plural`, `every`,
+`anaphora`, `exact`). A boolean literal `{"boolean": false}` is a value and
+is kept. An implementation produces its
 result, drops the same keys, and compares for plain JSON equality. Strings
 inside markers keep their case and have surrounding whitespace stripped and
 internal whitespace collapsed to one space; keywords are matched

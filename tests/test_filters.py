@@ -52,3 +52,16 @@ def test_render_quotes_what_needs_quoting():
     assert render_filter({"op": "and", "items": [{"op": "is", "path": ["a"], "value": {"number": 1}},
                                                  {"op": "or", "items": [{"op": "is", "path": ["b"], "value": {"number": 2}},
                                                                         {"op": "is", "path": ["c"], "value": {"number": 3}}]}]}) == "a is 1 and (b is 2 or c is 3)"
+
+
+def test_unparseable_filter_is_a_language_error():
+    from deontic.errors import DeonticError
+    with pytest.raises(DeonticError):
+        parse_filter('name resembles "Acme"')
+    with pytest.raises(DeonticError):
+        parse_filter("(a is 1")
+
+
+def test_false_literal_survives():
+    assert parse_filter("verified is false") == {"op": "is", "path": ["verified"], "value": {"boolean": False}}
+    assert render_filter(parse_filter("verified is false")) == "verified is false"

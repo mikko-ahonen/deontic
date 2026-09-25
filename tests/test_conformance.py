@@ -64,11 +64,14 @@ def walk(node):
             yield from walk(v)
 
 
+FLAGS = {"plural", "every", "anaphora", "exact"}
+
+
 def assert_canonical(node, where):
-    """No null / false / empty values anywhere (README, Canonical form)."""
+    """No null / empty values, and no false flags (README, Canonical form)."""
     for d in walk(node):
         for k, v in d.items():
-            assert v is not None and v is not False and v != [] and v != {}, \
+            assert v is not None and v != [] and v != {} and not (v is False and k in FLAGS), \
                 f"{where}: key {k!r} has a value the canonical form omits"
 
 

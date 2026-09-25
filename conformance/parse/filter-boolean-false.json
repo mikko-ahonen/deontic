@@ -1,0 +1,20 @@
+{
+  "source": "$Unverified Lender$ means any $lender$ where verified is false.",
+  "note": "A boolean literal is a value, so `false` survives the canonical form; only false flags (plural, every, anaphora, exact) are omitted.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Unverified Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "verified"
+      ],
+      "value": {
+        "boolean": false
+      }
+    }
+  }
+}

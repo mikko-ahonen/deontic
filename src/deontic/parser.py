@@ -46,9 +46,15 @@ class Miss(Exception):
     """This shape does not apply; try the next."""
 
 
+_FLAGS = {"plural", "every", "anaphora", "exact"}
+
+
 def clean(x):
+    """The corpus's canonical form: null, empty and false *flags* are omitted.
+    A boolean literal (`{"boolean": false}`) is a value, not a flag, and stays."""
     if isinstance(x, dict):
-        return {k: clean(v) for k, v in x.items() if not (v is None or v is False or v == [] or v == {})}
+        return {k: clean(v) for k, v in x.items()
+                if not (v is None or v == [] or v == {} or (v is False and k in _FLAGS))}
     if isinstance(x, list):
         return [clean(v) for v in x]
     return x
