@@ -639,7 +639,12 @@ class Parser:
             self.i += 1
             att["claim"] = {"text": c.value} if c.kind == "string" else {"rubric": c.raw if c.kind == "word" else str(c.value)}
         if self.kw("with", "confidence", "at", "least"):
-            att["confidence_at_least"] = self.number()
+            tok = self.peek()
+            if tok is not None and tok.kind == "parameter":
+                self.i += 1
+                att["confidence_at_least"] = {"parameter": tok.value}
+            else:
+                att["confidence_at_least"] = self.number()
         return att
 
     def subject_then_modal(self) -> tuple[dict, str]:

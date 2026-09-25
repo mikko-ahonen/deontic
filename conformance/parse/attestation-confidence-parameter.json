@@ -1,0 +1,37 @@
+{
+  "source": "Every $exhibit$ tagged featured must be attested by $Appraisal Service$ claiming appraisal-v2 with confidence at least <appraisal confidence> within the last #30 days#.",
+  "note": "The confidence threshold may be a parameter, like any threshold that varies per deployment (design §7).",
+  "ast": {
+    "shape": "attestation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "attesters": [
+      {
+        "attester": {
+          "term": "Appraisal Service"
+        },
+        "claim": {
+          "rubric": "appraisal-v2"
+        },
+        "confidence_at_least": {
+          "parameter": "appraisal confidence"
+        }
+      }
+    ],
+    "window": {
+      "kind": "within_last",
+      "duration": {
+        "value": 30,
+        "unit": "day"
+      }
+    }
+  }
+}

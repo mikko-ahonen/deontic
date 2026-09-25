@@ -286,7 +286,7 @@ These were open in `docs/design.md` §16 or unstated; the cases settle them.
 12. **A sentence ends with a period** in both strictness settings; a decimal
     point inside a number is not a terminator.
 13. **Attesters may be listed as alternatives** with `or by`, each with its
-    own claim and confidence. A quoted claim is text; a bare claim is a
+    own claim and confidence; the confidence threshold may be a parameter. A quoted claim is text; a bare claim is a
     rubric id, which must be declared next to a designated-system attester.
 14. **Units normalise to the singular** (`days` → `day`); `calendar month`
     is a unit of its own, distinct from `month`, because windows align to
