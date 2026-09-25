@@ -747,3 +747,27 @@ def parse(source: str, *, strictness: str = "permissive") -> dict:
 
 
 __all__ = ["parse", "Parser", "Miss", "clean", "pre_formal", "LexicalError"]
+
+
+def render_predicate(pred: dict) -> str:
+    """Canonical English for a predicate AST (used by filter rendering)."""
+    if "tagged" in pred:
+        return "be tagged " + " and ".join(pred["tagged"])
+    out = f"@{pred['verb']}@"
+    obj = pred.get("object")
+    if obj:
+        from .filters import render_filter
+        card = obj.get("cardinality")
+        if card:
+            n = card["value"]
+            prefix = {"at_least": f"at least {n}", "at_most": f"at most {n}", "exactly": f"exactly {n}",
+                      "between": f"between {n} and {card.get('max')}"}[card["op"]]
+            out += f" {prefix}"
+        elif not obj.get("plural"):
+            out += " a"
+        marker = "$$" if obj.get("plural") else "$"
+        out += f" {marker}{obj['term']}{marker}"
+        if "filter" in obj:
+            f = obj["filter"]
+            out += " " + (render_filter(f) if f["op"] in ("tagged", "that") else "where " + render_filter(f))
+    return out

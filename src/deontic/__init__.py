@@ -20,13 +20,14 @@ except PackageNotFoundError:  # running from a source tree, not installed
 from .dictionary import Dictionary, DictionaryError, load  # noqa: E402
 from .errors import DeonticError, LexicalError, ResolutionError  # noqa: E402
 from .parser import parse  # noqa: E402
+from .filters import parse_filter, render_filter  # noqa: E402
 from .resolve import Scope, resolve  # noqa: E402
 from .hooks import (  # noqa: E402
     ENTRY_POINT_GROUP, Attestation, Context, Entity, Hook, Lexicon, Relation, Witness, World,
 )
 
 __all__ = [
-    "__version__", "parse", "resolve", "load", "Dictionary", "DictionaryError", "Scope",
+    "__version__", "parse", "parse_filter", "render_filter", "resolve", "load", "Dictionary", "DictionaryError", "Scope",
     "DeonticError", "LexicalError", "ResolutionError", "ENTRY_POINT_GROUP", "Attestation", "Context", "Entity", "Hook",
     "Lexicon", "Relation", "Witness", "World",
 ]
