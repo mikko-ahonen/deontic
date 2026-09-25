@@ -1,0 +1,27 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "Every $curator$ tagged senior must @review@ a $loan$ every #6 months#."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c2",
+        "type": "curator",
+        "tags": [],
+        "fields": {
+          "name": "B"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "skipped",
+      "reason": "unsupported_verb",
+      "verb": "review"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "A reference declared `exactly one` denotes nothing here. A direct obligation on it is violated with the count, not vacuously satisfied: the reference's own cardinality is part of what the sentence asserts. (A term denoting nothing is different: `Every` over an empty set is satisfied, see universal-empty-subject-set-is-satisfied.)",
+  "sentences": [
+    "$Vault$ refers to exactly one $gallery$ where name is \"Vault\".",
+    "$Vault$ must @be inspected@ within the last #6 months#."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "counts": {
+        "found": 0,
+        "required": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "A reference defined over a term selects among that term's entities: the term's filter composes with the reference's own. x2 is newer but not fragile, so the latest fragile exhibit is x1.",
+  "sentences": [
+    "$Fragile Exhibit$ means any $exhibit$ tagged fragile.",
+    "$Latest Fragile Exhibit$ refers to the latest $Fragile Exhibit$ ordered by acquired on.",
+    "$Latest Fragile Exhibit$ must be tagged insured."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase",
+          "acquired on": "2025-01-01"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "insured"
+        ],
+        "fields": {
+          "title": "Bowl",
+          "acquired on": "2026-01-01"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "tags": [
+          "fragile",
+          "insured"
+        ],
+        "fields": {
+          "title": "Cup",
+          "acquired on": "2024-01-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 2,
+      "outcome": "violated",
+      "offenders": [
+        "x1"
+      ]
+    }
+  ]
+}
