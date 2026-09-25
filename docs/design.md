@@ -80,7 +80,10 @@ supplying:
   *strict*: anything unrecognised is an error, for domains that must fail
   closed.
 
-A language is the core plus one lexicon. The core ships with none.
+A language is the core plus one lexicon. The core ships with none. The data
+half of a lexicon is a **dictionary**, whose file format is
+`conformance/dictionary.schema.json`; the museum fixture in the corpus is
+the first dictionary written against it.
 
 ## 3. What the core refuses
 

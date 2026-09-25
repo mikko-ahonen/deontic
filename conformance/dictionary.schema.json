@@ -1,0 +1,242 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mikko-ahonen/deontic/conformance/dictionary.schema.json",
+  "title": "deontic dictionary",
+  "description": "A lexicon's data half: everything a sentence can name, declared so that a sentence can be validated with nothing but the dictionary files. What a verb or metric means at evaluation time is the implementation's concern and is not here; a `description` on each is prose for people. Versioning is additive within a major: a consumer ignores what it does not know.",
+  "type": "object",
+  "properties": {
+    "$schema": {"type": "string"},
+    "name": {"$ref": "#/$defs/identifier", "description": "The dictionary's name; with `version` it is what a policy digest pins."},
+    "version": {"$ref": "#/$defs/version"},
+    "description": {"type": "string"},
+    "imports": {
+      "type": "array",
+      "description": "Dictionaries whose declarations this one builds on. Names are resolved across all of them; a name declared twice is an error.",
+      "items": {
+        "type": "object",
+        "properties": {"name": {"$ref": "#/$defs/identifier"}, "version": {"$ref": "#/$defs/version"}},
+        "required": ["name", "version"],
+        "additionalProperties": false
+      }
+    },
+    "strictness": {"enum": ["permissive", "strict"], "default": "permissive", "description": "permissive: an unknown verb parses and the constraint is skipped; strict: anything unrecognised is an error."},
+    "types": {
+      "type": "object",
+      "description": "Entity types, keyed by the singular name used in markers.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/type"}
+    },
+    "relations": {
+      "type": "object",
+      "description": "Named relations recorded as {name, subject, object} triples rather than as a field of the subject. Keyed by relation name.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/relation"}
+    },
+    "verbs": {
+      "type": "object",
+      "description": "Verb declarations, keyed by the canonical verb phrase as it appears inside `@…@`.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/verb"}
+    },
+    "events": {
+      "type": "object",
+      "description": "Named date anchors for time expressions, keyed by the name used in markers.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/event"}
+    },
+    "cadences": {
+      "type": "object",
+      "description": "Named periods a sentence may use in place of a literal (`every Inspection Period`).",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/cadence"}
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Named measurements for the threshold shape, keyed by the name used in markers.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/metric"}
+    },
+    "attesters": {
+      "type": "object",
+      "description": "Attester kinds, keyed by the name used in markers.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/attester"}
+    },
+    "definitions": {
+      "type": "array",
+      "description": "Term and reference definitions shipped with the dictionary, as sentences in the storage form. They are parsed like any other definition; the names they define join the dictionary's names.",
+      "items": {"type": "string", "pattern": "\\.$"}
+    }
+  },
+  "required": ["name", "version", "types"],
+  "additionalProperties": false,
+
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^$@#<>\"]+$",
+      "description": "A name as it appears inside a marker: any text without sigils or quotes, whitespace-normalised."
+    },
+    "version": {"type": "string", "pattern": "^\\d+(\\.\\d+){0,2}$"},
+    "scalar_kind": {"enum": ["text", "number", "date", "boolean"]},
+
+    "field": {
+      "description": "Either a scalar kind as a bare string, or an object for a reference, a list, an optional field or one with a closed value set.",
+      "oneOf": [
+        {"$ref": "#/$defs/scalar_kind"},
+        {
+          "type": "object",
+          "properties": {
+            "kind": {"enum": ["text", "number", "date", "boolean", "reference", "list"]},
+            "to": {"$ref": "#/$defs/identifier", "description": "reference only: the target type. Traversed by the possessive."},
+            "of": {"$ref": "#/$defs/scalar_kind", "description": "list only: the item kind."},
+            "optional": {"type": "boolean", "default": false, "description": "May be absent from a record. An absent field is `is empty`."},
+            "values": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "text only: the closed set of values, for editors and documentation. The corpus does not yet make an unlisted value an error."},
+            "description": {"type": "string"}
+          },
+          "required": ["kind"],
+          "additionalProperties": false,
+          "allOf": [
+            {"if": {"properties": {"kind": {"const": "reference"}}}, "then": {"required": ["to"]}},
+            {"if": {"properties": {"kind": {"const": "list"}}}, "then": {"required": ["of"]}},
+            {"if": {"not": {"properties": {"kind": {"const": "reference"}}}}, "then": {"not": {"required": ["to"]}}},
+            {"if": {"not": {"properties": {"kind": {"const": "list"}}}}, "then": {"not": {"required": ["of"]}}},
+            {"if": {"not": {"properties": {"kind": {"const": "text"}}}}, "then": {"not": {"required": ["values"]}}}
+          ]
+        }
+      ]
+    },
+
+    "tag": {
+      "oneOf": [
+        {"$ref": "#/$defs/identifier"},
+        {
+          "type": "object",
+          "properties": {"name": {"$ref": "#/$defs/identifier"}, "description": {"type": "string"}},
+          "required": ["name"],
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "type": {
+      "type": "object",
+      "properties": {
+        "plural": {"$ref": "#/$defs/identifier", "description": "The form used inside `$$…$$`. Absent means the singular plus `s`."},
+        "description": {"type": "string"},
+        "fields": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/identifier"},
+          "additionalProperties": {"$ref": "#/$defs/field"},
+          "default": {}
+        },
+        "tags": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/tag"},
+          "default": [],
+          "description": "The closed set of tags a record of this type may carry and a sentence may name."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "relation": {
+      "type": "object",
+      "properties": {
+        "from": {"type": "array", "items": {"$ref": "#/$defs/identifier"}, "minItems": 1, "description": "Subject types."},
+        "to": {"$ref": "#/$defs/identifier", "description": "Object type. A relation is many-to-one: each subject has at most one object."},
+        "as": {"$ref": "#/$defs/identifier", "description": "The word the possessive uses to traverse it from a subject (`dependency's file`). Absent means the object type's name."},
+        "description": {"type": "string"}
+      },
+      "required": ["from", "to"],
+      "additionalProperties": false
+    },
+
+    "verb": {
+      "type": "object",
+      "properties": {
+        "synonyms": {"type": "array", "items": {"$ref": "#/$defs/identifier"}, "default": [], "description": "Other spellings accepted inside `@…@`; the parser records what was written, resolution maps it here."},
+        "subject": {"$ref": "#/$defs/identifier", "description": "The type (or term) the subject must be. Absent means any."},
+        "object": {
+          "description": "`none`: the verb takes no object. `entity`: any type. Otherwise the type or term the object must be. Absent means `entity`.",
+          "$ref": "#/$defs/identifier",
+          "default": "entity"
+        },
+        "description": {"type": "string", "description": "What the verb means over recorded state, in prose. Not consumed by an implementation; it is what lets a second implementation reproduce the first's outcomes."}
+      },
+      "additionalProperties": false
+    },
+
+    "event": {
+      "type": "object",
+      "properties": {
+        "type": {"$ref": "#/$defs/identifier"},
+        "field": {"$ref": "#/$defs/identifier", "description": "A date field of the type."},
+        "description": {"type": "string"}
+      },
+      "required": ["type", "field"],
+      "additionalProperties": false
+    },
+
+    "cadence": {
+      "type": "object",
+      "properties": {
+        "value": {"type": "number", "exclusiveMinimum": 0},
+        "unit": {"enum": ["hour", "day", "week", "month", "quarter", "year", "calendar week", "calendar month", "calendar year"]},
+        "description": {"type": "string"}
+      },
+      "required": ["value", "unit"],
+      "additionalProperties": false
+    },
+
+    "metric": {
+      "type": "object",
+      "properties": {
+        "of": {"$ref": "#/$defs/identifier", "description": "The type the metric is measured against."},
+        "unit": {"type": "string", "description": "The unit of its value, when it has one (`percent`)."},
+        "description": {"type": "string"}
+      },
+      "required": ["of"],
+      "additionalProperties": false
+    },
+
+    "attester": {
+      "type": "object",
+      "properties": {
+        "kind": {"enum": ["person", "role", "system"], "description": "`system` is a designated system, which judges under a rubric and records a confidence."},
+        "plural": {"$ref": "#/$defs/identifier"},
+        "description": {"type": "string"},
+        "rubrics": {
+          "type": "object",
+          "description": "system only: the rubrics this attester may judge under, keyed by rubric id. A sentence names one by id; an edit is a new version.",
+          "propertyNames": {"$ref": "#/$defs/identifier"},
+          "additionalProperties": {"$ref": "#/$defs/rubric"}
+        }
+      },
+      "required": ["kind"],
+      "additionalProperties": false,
+      "allOf": [
+        {"if": {"not": {"properties": {"kind": {"const": "system"}}}}, "then": {"not": {"required": ["rubrics"]}}}
+      ]
+    },
+
+    "rubric": {
+      "type": "object",
+      "description": "The written statement of what is assessed and by what criteria (design §9).",
+      "properties": {
+        "version": {"type": "integer", "minimum": 1},
+        "claim": {"type": "string", "description": "What an attestation under this rubric asserts, in the language's own terms."},
+        "inputs": {"type": "array", "items": {"type": "string"}, "description": "What the judge is given, and nothing else."},
+        "criteria": {"type": "array", "items": {"type": "string"}},
+        "severities": {"type": "array", "items": {"type": "string"}, "description": "The severity scale for findings, lowest first."},
+        "output": {"type": "string", "description": "The output contract that becomes the attestation fact."},
+        "systems": {"type": "array", "items": {"type": "string"}, "description": "Which systems may execute it."},
+        "confidence": {"type": "string", "description": "What a confidence value means under this rubric."},
+        "examples": {"type": "array", "items": {"type": "object"}, "description": "Labelled examples that fix what a confidence value means."}
+      },
+      "required": ["version", "claim"],
+      "additionalProperties": false
+    }
+  }
+}

@@ -12,8 +12,9 @@ parse or evaluate.
 ## Layout
 
     conformance/
-      lexicon.json        the fixture lexicon every case that needs one uses
-      ast.schema.json     JSON Schema for the `ast` of a parse case
+      dictionary.schema.json   JSON Schema for a dictionary, a lexicon's data half
+      lexicon.json             the fixture dictionary every case that needs one uses
+      ast.schema.json          JSON Schema for the `ast` of a parse case
       parse/*.json        source → expected AST (no lexicon needed)
       reject/*.json       source → the error it must be rejected with
       evaluate/*.json     sentences + world + evaluation date → outcomes
@@ -25,8 +26,45 @@ prefix (`definition-`, `filter-`, `obligation-`, `existence-`, `lexical-`,
 The fixture lexicon is a museum: exhibits, galleries, curators, loans. It is
 invented and deliberately dull. It exists so that every construct can be
 exercised once, not to model anything; do not read domain intent into it.
-Its file layout is provisional until the dictionary schema is fixed, so
-implementations should read it as data, not as a contract.
+It conforms to `dictionary.schema.json` and is the first dictionary written
+against it.
+
+## Dictionary
+
+A dictionary is the data half of a lexicon: the names a sentence may use and
+what kind of thing each is. `dictionary.schema.json` is normative. Its
+sections, all keyed by the name as written inside a marker:
+
+- `types` — entity types with `plural`, `fields` and a closed `tags` set. A
+  field is a scalar kind (`text`, `number`, `date`, `boolean`), a
+  `reference` to another type, or a `list` of a scalar kind; it may be
+  `optional`, and a text field may list its closed `values`.
+- `relations` — named many-to-one relations recorded as triples rather than
+  as a field, with the subject types they hold `from`, the type they point
+  `to`, and the word the possessive uses (`as`).
+- `verbs` — declarations with `synonyms`, the required `subject` kind, the
+  `object` kind (`none`, `entity`, or a type or term) and a prose
+  `description` of what the verb means over recorded state. The
+  description is not consumed by an implementation; it is what lets a
+  second implementation reproduce the first's outcomes.
+- `events` (type plus date field), `cadences` (value plus unit), `metrics`
+  (the type they are `of`, a `unit`), and `attesters` (`person`, `role` or
+  `system`; a system carries its `rubrics` by id, each with a `version` and
+  a `claim`).
+- `definitions` — term and reference sentences shipped with the dictionary.
+- `imports` — other dictionaries by name and version; names resolve across
+  all of them and a name declared twice is an error.
+
+**Paths.** A possessive step from a type is either one of its `reference`
+fields, or a relation whose `from` includes the type, addressed by its `as`
+word. `not_a_reference` is the error for any other field. Traversal through
+a `list` field is not fixed by any case and is therefore not in the language.
+
+**Names.** A marked name must be declared in exactly one role: type, plural
+of a type, defined term or reference, event, cadence, metric, or attester
+(or its plural). `unknown_term` is the error otherwise. A dictionary's
+`name` and `version` are what a policy digest pins; within a major version,
+changes only add.
 
 ## Canonical form
 
@@ -125,8 +163,11 @@ aggregate, threshold, minimum attesters) and its keys are given per case.
 The world is the closed world. Entities are `{id, type, tags, fields}`;
 reference fields hold an entity id; dates are ISO calendar dates. Attestations
 are `{subject, attester, claim, date, confidence?, system?, attester_id?}`,
-where `attester` names an attester kind from the lexicon. What each lexicon
-verb and metric means over this world is stated in prose in `lexicon.json`,
+where `attester` names an attester kind from the lexicon. A reference field
+holds the id of the entity it points at; a relation from the dictionary's
+`relations` section may be given the same way, as a field of the subject
+named by the relation's `as` word. What each lexicon verb and metric means
+over this world is stated in prose in `lexicon.json` under `description`,
 which is what makes the expected outcomes reproducible.
 
 Time windows are half-open: `within the last year` as of D covers

@@ -16,6 +16,7 @@ import pytest
 CONFORMANCE = Path(__file__).resolve().parent.parent / "conformance"
 LEXICON = json.loads((CONFORMANCE / "lexicon.json").read_text())
 SCHEMA = json.loads((CONFORMANCE / "ast.schema.json").read_text())
+DICTIONARY_SCHEMA = json.loads((CONFORMANCE / "dictionary.schema.json").read_text())
 
 SHAPES = {
     "term_definition", "reference_definition", "obligation", "conditional",
@@ -170,6 +171,7 @@ def lexicon_names():
     for key in ("events", "cadences", "metrics", "attesters"):
         names |= set(LEXICON.get(key, {}))
     names |= {a["plural"] for a in LEXICON["attesters"].values() if "plural" in a}
+    names |= {marked_terms(d)[0] for d in LEXICON.get("definitions", [])}
     return names
 
 
@@ -210,7 +212,7 @@ def test_evaluate_world_uses_the_lexicon(case):
         t = LEXICON["types"][e["type"]]
         for k, v in e["fields"].items():
             kind = t["fields"][k]
-            if isinstance(kind, dict):
+            if isinstance(kind, dict) and kind["kind"] == "reference":
                 assert v in ids, f"{e['id']}.{k} points at unknown id {v}"
     for a in case["world"].get("attestations", []):
         assert a["subject"] in ids
@@ -243,16 +245,60 @@ def test_evaluate_covers_every_outcome():
 
 # --- lexicon ------------------------------------------------------------------------------
 
+def field_kind(f):
+    return f if isinstance(f, str) else f["kind"]
+
+
+def test_lexicon_matches_dictionary_schema():
+    jsonschema = pytest.importorskip("jsonschema")
+    jsonschema.validate(LEXICON, DICTIONARY_SCHEMA)
+
+
+def test_schemas_are_valid_json_schema():
+    jsonschema = pytest.importorskip("jsonschema")
+    jsonschema.Draft202012Validator.check_schema(SCHEMA)
+    jsonschema.Draft202012Validator.check_schema(DICTIONARY_SCHEMA)
+
+
 def test_lexicon_references_point_at_declared_types():
-    for name, t in LEXICON["types"].items():
-        for field, kind in t["fields"].items():
-            if isinstance(kind, dict):
-                assert kind["reference"] in LEXICON["types"], (name, field)
-            else:
-                assert kind in ("text", "number", "date", "boolean"), (name, field, kind)
+    """Cross-references a JSON Schema cannot express."""
+    types = LEXICON["types"]
+    for name, t in types.items():
+        for field, f in t["fields"].items():
+            assert field_kind(f) in ("text", "number", "date", "boolean", "reference", "list"), (name, field)
+            if field_kind(f) == "reference":
+                assert f["to"] in types, (name, field, f["to"])
+    for name, r in LEXICON.get("relations", {}).items():
+        assert set(r["from"]) <= set(types) and r["to"] in types, name
     for name, ev in LEXICON["events"].items():
-        assert LEXICON["types"][ev["type"]]["fields"][ev["field"]] == "date", name
+        assert field_kind(types[ev["type"]]["fields"][ev["field"]]) == "date", name
     for name, m in LEXICON["metrics"].items():
-        assert m["of"] in LEXICON["types"], name
+        assert m["of"] in types, name
     for name, v in LEXICON["verbs"].items():
-        assert v["object"] == "none" or v["object"] == "entity" or v["object"] in LEXICON["types"], name
+        obj = v.get("object", "entity")
+        assert obj in ("none", "entity") or obj in types, (name, obj)
+        if "subject" in v:
+            assert v["subject"] in types, (name, v["subject"])
+    for a in LEXICON["attesters"].values():
+        if a["kind"] != "system":
+            assert "rubrics" not in a
+
+
+def test_lexicon_names_are_declared_in_one_role_each():
+    roles = []
+    for name, t in LEXICON["types"].items():
+        roles += [name, t.get("plural", name + "s")]
+    for key in ("events", "cadences", "metrics", "attesters"):
+        roles += list(LEXICON.get(key, {}))
+    roles += [a["plural"] for a in LEXICON["attesters"].values() if "plural" in a]
+    roles += [marked_terms(d)[0] for d in LEXICON.get("definitions", [])]
+    dupes = {n for n in roles if roles.count(n) > 1}
+    assert not dupes, f"declared in more than one role: {dupes}"
+
+
+def test_lexicon_definitions_name_only_declared_things():
+    known = lexicon_names()
+    for d in LEXICON.get("definitions", []):
+        assert d.endswith(".")
+        for t in marked_terms(d)[1:]:
+            assert t in known, (d, t)
