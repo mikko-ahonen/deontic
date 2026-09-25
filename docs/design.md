@@ -1,10 +1,9 @@
 # deontic — language design
 
-**Status:** planning; the [conformance corpus](../conformance/README.md)
-exists and is the specification. This document states what the language is
-meant to be; the grammar, AST and parser are not implemented yet. When they
-are, the corpus is the test and this document is the rationale. Where the
-two disagree, the corpus wins and this document is wrong. Nothing here describes an evaluator: how a conformant
+**Status:** the [conformance corpus](../conformance/README.md) is the
+specification and the grammar in `src/deontic` reproduces it. This document
+is the rationale. Where the two disagree, the corpus wins and this document
+is wrong. Nothing here describes an evaluator: how a conformant
 implementation computes results is its own business.
 
 ## 1. What it is

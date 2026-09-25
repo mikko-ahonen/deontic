@@ -3,10 +3,11 @@
 A constraint language for **obligation**, **permission** and **prohibition** —
 the things a system must do, may do, and must not do.
 
-> **Status: planning.** This repository carries the packaging, the release
-> pipeline, the design and the conformance corpus. The grammar, AST and
-> parser are not implemented yet. It is published so the name and the corpus
-> are stable for implementers; do not depend on it for behaviour yet.
+> **Status: alpha.** The grammar is implemented and reproduces the whole
+> conformance corpus: `deontic.parse` gives the AST, `deontic.load` reads a
+> dictionary and `deontic.resolve` checks a sentence against it. There is no
+> evaluator in this package, by design; the corpus's `evaluate/` cases are
+> for implementations that add one.
 
 ## Why a language rather than a library
 
@@ -32,6 +33,23 @@ conformant when it reproduces the corpus. It has three parts — `parse/`
 (source to AST, no lexicon needed), `reject/` (source to error) and
 `evaluate/` (sentences, a world and a date to outcomes) — over one invented
 fixture lexicon, and its README records the language decisions the cases fix.
+
+## Use
+
+```python
+import deontic
+
+ast = deontic.parse("Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage.")
+# {'shape': 'obligation', 'subject': {...}, 'predicate': {...}}
+
+lexicon = deontic.load("conformance/lexicon.json")
+deontic.resolve(ast, lexicon)   # raises a ResolutionError with the corpus's error code otherwise
+```
+
+Sentences are authored as English and stored with markers on the typed
+spans (`$Term$`, `@verb@`, `#90 days#`, `<parameter>`); editors write the
+markers, people do not. A verb's meaning is a `pattern` in the dictionary
+or, failing that, code under the contract in [docs/hooks.md](docs/hooks.md).
 
 ## Install
 
