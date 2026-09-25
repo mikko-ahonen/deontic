@@ -1,0 +1,21 @@
+{
+  "source": "At least three $$curators$$ tagged senior must @exist@.",
+  "note": "Number words one to ten are accepted wherever a count is.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "at_least",
+      "value": 3
+    },
+    "subject": {
+      "term": "curators",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "senior"
+        ]
+      }
+    }
+  }
+}

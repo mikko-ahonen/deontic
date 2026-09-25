@@ -1,0 +1,33 @@
+{
+  "source": "If a $curator$ is tagged remote, then the $curator$ must @have completed@ $Remote Handling Training$ within the last year.",
+  "note": "Interpretation rule 4: `the curator` resolves to the most recent noun phrase agreeing in number, here the condition's subject.",
+  "ast": {
+    "shape": "conditional",
+    "condition": {
+      "term": "curator",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "remote"
+        ]
+      }
+    },
+    "subject": {
+      "term": "curator",
+      "anaphora": true
+    },
+    "predicate": {
+      "verb": "have completed",
+      "object": {
+        "term": "Remote Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 1,
+          "unit": "year"
+        }
+      }
+    }
+  }
+}

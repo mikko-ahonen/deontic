@@ -1,0 +1,51 @@
+{
+  "source": "$Valuable Exhibit$ means any $exhibit$ where value is at least 1000 and value is at most 100000 and condition score is more than 3 and condition score is less than 10.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Valuable Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "at_least",
+          "path": [
+            "value"
+          ],
+          "value": {
+            "number": 1000
+          }
+        },
+        {
+          "op": "at_most",
+          "path": [
+            "value"
+          ],
+          "value": {
+            "number": 100000
+          }
+        },
+        {
+          "op": "more_than",
+          "path": [
+            "condition score"
+          ],
+          "value": {
+            "number": 3
+          }
+        },
+        {
+          "op": "less_than",
+          "path": [
+            "condition score"
+          ],
+          "value": {
+            "number": 10
+          }
+        }
+      ]
+    }
+  }
+}

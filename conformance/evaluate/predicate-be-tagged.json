@@ -1,0 +1,51 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must be tagged insured."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile",
+          "insured"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Bowl"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "tags": [
+          "insured"
+        ],
+        "fields": {
+          "title": "Cup"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "x2"
+      ]
+    }
+  ]
+}

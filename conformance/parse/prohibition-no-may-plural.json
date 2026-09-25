@@ -1,0 +1,24 @@
+{
+  "source": "No $$exhibits$$ tagged draft may @be lent to@ $$lenders$$.",
+  "ast": {
+    "shape": "prohibition",
+    "form": "no_may",
+    "subject": {
+      "term": "exhibits",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "draft"
+        ]
+      }
+    },
+    "predicate": {
+      "verb": "be lent to",
+      "object": {
+        "term": "lenders",
+        "plural": true
+      }
+    }
+  }
+}

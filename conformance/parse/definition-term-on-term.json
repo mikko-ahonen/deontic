@@ -1,0 +1,17 @@
+{
+  "source": "$Senior Active Curator$ means any $Active Curator$ tagged senior.",
+  "note": "The base of a definition may be another term; the parser does not distinguish types from terms, resolution does.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Senior Active Curator",
+    "type": {
+      "term": "Active Curator"
+    },
+    "filter": {
+      "op": "tagged",
+      "tags": [
+        "senior"
+      ]
+    }
+  }
+}

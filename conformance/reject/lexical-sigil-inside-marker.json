@@ -1,0 +1,8 @@
+{
+  "source": "Every $exhibit @on loan@$ must @have@ a $catalogue entry$.",
+  "note": "Markers do not nest.",
+  "error": {
+    "code": "sigil_inside_marker",
+    "position": 6
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "The reference selects d2 (latest by effective date); only one distinct attester has attested d2 in the window.",
+  "sentences": [
+    "$Current Loan Policy$ refers to the latest $policy document$ where status is approved ordered by effective on, version.",
+    "$Current Loan Policy$ must be attested by at least 2 $$Registrars$$ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "d1",
+        "type": "policy document",
+        "fields": {
+          "title": "Loans",
+          "status": "approved",
+          "version": 1,
+          "effective on": "2025-01-01"
+        }
+      },
+      {
+        "id": "d2",
+        "type": "policy document",
+        "fields": {
+          "title": "Loans",
+          "status": "approved",
+          "version": 2,
+          "effective on": "2026-01-01"
+        }
+      }
+    ],
+    "attestations": [
+      {
+        "subject": "d2",
+        "attester": "Registrar",
+        "attester_id": "reg-1",
+        "claim": "reviewed",
+        "date": "2026-02-01"
+      },
+      {
+        "subject": "d1",
+        "attester": "Registrar",
+        "attester_id": "reg-2",
+        "claim": "reviewed",
+        "date": "2026-02-01"
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "d2"
+      ],
+      "counts": {
+        "found": 1,
+        "required": 2
+      }
+    }
+  ]
+}

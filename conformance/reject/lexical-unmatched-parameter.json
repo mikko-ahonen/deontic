@@ -1,0 +1,7 @@
+{
+  "source": "$Selected Policy$ means any $policy document$ where version is <selected version.",
+  "error": {
+    "code": "unmatched_marker",
+    "position": 63
+  }
+}

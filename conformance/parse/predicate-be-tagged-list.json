@@ -1,0 +1,22 @@
+{
+  "source": "Every $exhibit$ tagged featured must be tagged insured and photographed.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "tagged": [
+        "insured",
+        "photographed"
+      ]
+    }
+  }
+}

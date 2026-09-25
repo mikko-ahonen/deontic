@@ -1,0 +1,21 @@
+{
+  "source": "$$exhibits$$ and <a parameter>.",
+  "ast": {
+    "shape": "pre_formal",
+    "fragments": [
+      {
+        "term": "exhibits",
+        "plural": true
+      },
+      {
+        "prose": " and "
+      },
+      {
+        "parameter": "a parameter"
+      },
+      {
+        "prose": "."
+      }
+    ]
+  }
+}

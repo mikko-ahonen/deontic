@@ -1,0 +1,22 @@
+{
+  "source": "Every $exhibit$ tagged fragile must be tagged insured.",
+  "note": "`be tagged <tags>` is a core predicate, the predicate form of the `tagged` filter; it is unmarked because it is not a lexicon verb.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "fragile"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "tagged": [
+        "insured"
+      ]
+    }
+  }
+}

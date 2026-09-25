@@ -1,0 +1,70 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "x2's loan is returned, so per the lexicon's `be lent to` it is not lent.",
+  "sentences": [
+    "No $exhibit$ tagged draft may @be lent to@ a $lender$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "le1",
+        "type": "lender",
+        "fields": {
+          "name": "Acme",
+          "type": "external"
+        }
+      },
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "draft"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "draft"
+        ],
+        "fields": {
+          "title": "Bowl"
+        }
+      },
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "exhibit": "x1",
+          "lender": "le1",
+          "starts on": "2026-05-01",
+          "due on": "2026-07-01"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "exhibit": "x2",
+          "lender": "le1",
+          "starts on": "2026-01-01",
+          "due on": "2026-02-01",
+          "returned on": "2026-02-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "x1"
+      ]
+    }
+  ]
+}

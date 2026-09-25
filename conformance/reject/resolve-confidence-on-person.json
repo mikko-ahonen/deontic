@@ -1,0 +1,9 @@
+{
+  "source": "$Current Loan Policy$ must be attested by a $Registrar$ with confidence at least 0.8 every year.",
+  "lexicon": "museum",
+  "note": "Confidence is a property of a designated system's judgement.",
+  "error": {
+    "code": "confidence_requires_system",
+    "attester": "Registrar"
+  }
+}

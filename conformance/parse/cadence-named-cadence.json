@@ -1,0 +1,21 @@
+{
+  "source": "Every $gallery$ tagged public must @be inspected@ every $Inspection Period$.",
+  "note": "A period may name a cadence the lexicon defines, so a lexicon can retune it in one place.",
+  "ast": {
+    "shape": "cadence",
+    "subject": {
+      "term": "gallery",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "public"
+        ]
+      },
+      "every": true
+    },
+    "verb": "be inspected",
+    "period": {
+      "cadence": "Inspection Period"
+    }
+  }
+}

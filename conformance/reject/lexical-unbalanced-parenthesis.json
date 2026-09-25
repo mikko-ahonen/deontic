@@ -1,0 +1,7 @@
+{
+  "source": "$Named Lender$ means any $lender$ where (name contains \"Acme\" or name contains \"ACME\".",
+  "error": {
+    "code": "unbalanced_parenthesis",
+    "position": 40
+  }
+}

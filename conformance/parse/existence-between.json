@@ -1,0 +1,21 @@
+{
+  "source": "Between 2 and 4 $$galleries$$ tagged public must @exist@.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "between",
+      "value": 2,
+      "max": 4
+    },
+    "subject": {
+      "term": "galleries",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "public"
+        ]
+      }
+    }
+  }
+}

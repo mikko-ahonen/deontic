@@ -1,0 +1,10 @@
+{
+  "source": "$Odd Loan$ means any $loan$ where status's length is 3.",
+  "lexicon": "museum",
+  "note": "Only a reference field can be traversed.",
+  "error": {
+    "code": "not_a_reference",
+    "type": "loan",
+    "field": "status"
+  }
+}

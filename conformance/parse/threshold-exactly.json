@@ -1,0 +1,19 @@
+{
+  "source": "The $Availability$ of $Ticket Kiosk$ must be exactly #100 percent# per calendar week.",
+  "ast": {
+    "shape": "threshold",
+    "metric": "Availability",
+    "subject": {
+      "term": "Ticket Kiosk"
+    },
+    "op": "exactly",
+    "value": {
+      "value": 100,
+      "unit": "percent"
+    },
+    "window": {
+      "value": 1,
+      "unit": "calendar week"
+    }
+  }
+}

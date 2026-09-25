@@ -1,0 +1,20 @@
+{
+  "source": "Every $loan$ must @have@ exactly one $lender$.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "loan",
+      "every": true
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "lender",
+        "cardinality": {
+          "op": "exactly",
+          "value": 1
+        }
+      }
+    }
+  }
+}

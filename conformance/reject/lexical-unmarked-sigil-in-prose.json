@@ -1,0 +1,8 @@
+{
+  "source": "Every $exhibit$ must @have@ a value of at least 5#.",
+  "note": "An unmarked sigil in prose is the same error: there is no escape syntax; rephrase.",
+  "error": {
+    "code": "unmatched_marker",
+    "position": 49
+  }
+}

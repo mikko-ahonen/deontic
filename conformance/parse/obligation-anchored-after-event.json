@@ -1,0 +1,24 @@
+{
+  "source": "Every $loan$ must @be returned@ within #14 days# after $Due Date$.",
+  "note": "The anchor is an event the lexicon declares; the lexicon says which date it is.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "loan",
+      "every": true
+    },
+    "predicate": {
+      "verb": "be returned",
+      "time": {
+        "kind": "within_after",
+        "duration": {
+          "value": 14,
+          "unit": "day"
+        },
+        "event": {
+          "term": "Due Date"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "source": "Something about $exhibit$ within #90 days#.",
+  "ast": {
+    "shape": "pre_formal",
+    "fragments": [
+      {
+        "prose": "Something about "
+      },
+      {
+        "term": "exhibit"
+      },
+      {
+        "prose": " within "
+      },
+      {
+        "quantity": {
+          "value": 90,
+          "unit": "day"
+        }
+      },
+      {
+        "prose": "."
+      }
+    ]
+  }
+}

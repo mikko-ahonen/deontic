@@ -1,0 +1,48 @@
+{
+  "source": "$Odd Gallery$ means any $gallery$ where status is closed or status is open and floor is 2.",
+  "note": "Interpretation rule 3: `and` binds tighter than `or`.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Odd Gallery",
+    "type": {
+      "term": "gallery"
+    },
+    "filter": {
+      "op": "or",
+      "items": [
+        {
+          "op": "is",
+          "path": [
+            "status"
+          ],
+          "value": {
+            "text": "closed"
+          }
+        },
+        {
+          "op": "and",
+          "items": [
+            {
+              "op": "is",
+              "path": [
+                "status"
+              ],
+              "value": {
+                "text": "open"
+              }
+            },
+            {
+              "op": "is",
+              "path": [
+                "floor"
+              ],
+              "value": {
+                "number": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

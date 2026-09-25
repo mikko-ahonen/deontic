@@ -1,0 +1,16 @@
+{
+  "source": "$Main Gallery$ must not @have@ a $loan$.",
+  "ast": {
+    "shape": "prohibition",
+    "form": "must_not",
+    "subject": {
+      "term": "Main Gallery"
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "loan"
+      }
+    }
+  }
+}

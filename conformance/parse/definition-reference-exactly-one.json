@@ -1,0 +1,23 @@
+{
+  "source": "$Main Gallery$ refers to exactly one $gallery$ where name is \"Main\".",
+  "ast": {
+    "shape": "reference_definition",
+    "name": "Main Gallery",
+    "cardinality": {
+      "op": "exactly",
+      "value": 1
+    },
+    "type": {
+      "term": "gallery"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "name"
+      ],
+      "value": {
+        "text": "Main"
+      }
+    }
+  }
+}

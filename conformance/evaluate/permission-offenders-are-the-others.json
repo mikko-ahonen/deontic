@@ -1,0 +1,54 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "Permission is judged as a prohibition on every entity of the subject's type that does not match its filter.",
+  "sentences": [
+    "Only $$curators$$ tagged senior may @approve@ a $loan$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "approver": "c1",
+          "status": "approved"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "approver": "c2",
+          "status": "approved"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "c2"
+      ]
+    }
+  ]
+}

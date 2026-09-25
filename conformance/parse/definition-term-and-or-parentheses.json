@@ -1,0 +1,48 @@
+{
+  "source": "$Named Lender$ means any $lender$ where status is active and (name contains \"Acme\" or name contains \"ACME\").",
+  "note": "Parentheses group; they are allowed but not the normal form.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Named Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "is",
+          "path": [
+            "status"
+          ],
+          "value": {
+            "text": "active"
+          }
+        },
+        {
+          "op": "or",
+          "items": [
+            {
+              "op": "contains",
+              "path": [
+                "name"
+              ],
+              "value": {
+                "text": "Acme"
+              }
+            },
+            {
+              "op": "contains",
+              "path": [
+                "name"
+              ],
+              "value": {
+                "text": "ACME"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

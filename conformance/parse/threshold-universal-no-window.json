@@ -1,0 +1,22 @@
+{
+  "source": "The $Condition Score$ of every $exhibit$ tagged featured must be at least 7.",
+  "note": "A bare number is a quantity without a unit. Without a window the metric is read as of the evaluation date.",
+  "ast": {
+    "shape": "threshold",
+    "metric": "Condition Score",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "op": "at_least",
+    "value": {
+      "value": 7
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source": "$Verified Lender$ means any $lender$ where verified is true.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Verified Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "verified"
+      ],
+      "value": {
+        "boolean": true
+      }
+    }
+  }
+}

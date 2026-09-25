@@ -1,0 +1,36 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "Closed world: no fragile exhibit exists, so the obligation holds. This is the legitimate vacuous case; compare skipped-unknown-verb, where an implementation must not reach this answer by emptying the set.",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "fields": {
+          "title": "Anvil",
+          "gallery": "g2"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "satisfied"
+    }
+  ]
+}

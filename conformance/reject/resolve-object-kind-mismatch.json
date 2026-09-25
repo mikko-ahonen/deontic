@@ -1,0 +1,11 @@
+{
+  "source": "Every $exhibit$ must @be located in@ a $lender$.",
+  "lexicon": "museum",
+  "note": "A verb declaration says what kind of object it takes; the sentence is checked against it with nothing but the lexicon files.",
+  "error": {
+    "code": "object_kind_mismatch",
+    "verb": "be located in",
+    "expected": "gallery",
+    "actual": "lender"
+  }
+}

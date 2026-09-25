@@ -1,0 +1,17 @@
+{
+  "source": "$Registrar$ must @review@ the $Loan Register$ every #6 months#.",
+  "ast": {
+    "shape": "cadence",
+    "subject": {
+      "term": "Registrar"
+    },
+    "verb": "review",
+    "target": {
+      "term": "Loan Register"
+    },
+    "period": {
+      "value": 6,
+      "unit": "month"
+    }
+  }
+}

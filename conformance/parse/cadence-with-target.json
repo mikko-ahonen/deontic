@@ -1,0 +1,17 @@
+{
+  "source": "$Head Curator$ must @publish@ a $Collection Report$ every quarter.",
+  "ast": {
+    "shape": "cadence",
+    "subject": {
+      "term": "Head Curator"
+    },
+    "verb": "publish",
+    "target": {
+      "term": "Collection Report"
+    },
+    "period": {
+      "value": 1,
+      "unit": "quarter"
+    }
+  }
+}

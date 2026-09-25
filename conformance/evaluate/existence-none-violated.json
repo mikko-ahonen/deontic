@@ -1,0 +1,41 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "No $loan$ tagged overdue may @exist@."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "l1",
+        "type": "loan",
+        "tags": [
+          "overdue"
+        ],
+        "fields": {
+          "status": "open"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "status": "open"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "l1"
+      ],
+      "counts": {
+        "found": 1,
+        "required": 0
+      }
+    }
+  ]
+}

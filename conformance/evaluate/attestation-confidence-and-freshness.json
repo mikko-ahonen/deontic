@@ -1,0 +1,78 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "x2's confidence is below the threshold; x3's attestation has aged out of the window. Raising the threshold or shortening the window re-evaluates stored attestations without asking any judge.",
+  "sentences": [
+    "Every $exhibit$ tagged featured must be attested by $Appraisal Service$ claiming appraisal-v2 with confidence at least 0.8 within the last #30 days#."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "featured"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "featured"
+        ],
+        "fields": {
+          "title": "Bowl"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "tags": [
+          "featured"
+        ],
+        "fields": {
+          "title": "Cup"
+        }
+      }
+    ],
+    "attestations": [
+      {
+        "subject": "x1",
+        "attester": "Appraisal Service",
+        "claim": "appraisal-v2",
+        "date": "2026-05-20",
+        "confidence": 0.9,
+        "system": "appraiser/1.2"
+      },
+      {
+        "subject": "x2",
+        "attester": "Appraisal Service",
+        "claim": "appraisal-v2",
+        "date": "2026-05-20",
+        "confidence": 0.7,
+        "system": "appraiser/1.2"
+      },
+      {
+        "subject": "x3",
+        "attester": "Appraisal Service",
+        "claim": "appraisal-v2",
+        "date": "2026-04-01",
+        "confidence": 0.95,
+        "system": "appraiser/1.2"
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "x2",
+        "x3"
+      ]
+    }
+  ]
+}

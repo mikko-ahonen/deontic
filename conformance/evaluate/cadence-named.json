@@ -1,0 +1,59 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "`every <period>` is judged as: an occurrence exists within the last period as of the evaluation date. The lexicon's Inspection Period is six months.",
+  "sentences": [
+    "Every $gallery$ tagged public must @be inspected@ every $Inspection Period$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "East"
+        }
+      },
+      {
+        "id": "i1",
+        "type": "inspection",
+        "fields": {
+          "gallery": "g1",
+          "result": "ok",
+          "inspected on": "2026-02-01"
+        }
+      },
+      {
+        "id": "i2",
+        "type": "inspection",
+        "fields": {
+          "gallery": "g2",
+          "result": "ok",
+          "inspected on": "2025-11-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "g2"
+      ]
+    }
+  ]
+}

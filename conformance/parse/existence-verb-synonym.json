@@ -1,0 +1,20 @@
+{
+  "source": "At least one $curator$ tagged senior must @exists@.",
+  "note": "`exist` is a core verb; its inflections are recognised by the parser, not the lexicon.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "at_least",
+      "value": 1
+    },
+    "subject": {
+      "term": "curator",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "senior"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "source": "The $curator$ must @have completed@ $Handling Training$ within the last year.",
+  "note": "`the curator` has no accessible antecedent in the sentence; rule 4 makes this an error, not a direct obligation.",
+  "error": {
+    "code": "unresolved_anaphora",
+    "noun": "curator"
+  }
+}

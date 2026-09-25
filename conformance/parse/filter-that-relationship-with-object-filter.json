@@ -1,0 +1,30 @@
+{
+  "source": "$External Lending Curator$ means any $curator$ that @approves@ a $loan$ where lender's type is external.",
+  "note": "Interpretation rule 1: the where-filter modifies the loan, the nearest preceding noun.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "External Lending Curator",
+    "type": {
+      "term": "curator"
+    },
+    "filter": {
+      "op": "that",
+      "predicate": {
+        "verb": "approves",
+        "object": {
+          "term": "loan",
+          "filter": {
+            "op": "is",
+            "path": [
+              "lender",
+              "type"
+            ],
+            "value": {
+              "text": "external"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "l3 has no return and its due date plus fourteen days is in the past, so it offends; a loan whose window has not yet closed would not.",
+  "sentences": [
+    "$Return$ must occur within #14 days# after $Due Date$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "due on": "2026-05-01",
+          "returned on": "2026-05-10"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "due on": "2026-05-01",
+          "returned on": "2026-05-20"
+        }
+      },
+      {
+        "id": "l3",
+        "type": "loan",
+        "fields": {
+          "due on": "2026-05-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "l2",
+        "l3"
+      ]
+    }
+  ]
+}

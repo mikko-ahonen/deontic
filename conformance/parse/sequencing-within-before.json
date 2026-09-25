@@ -1,0 +1,17 @@
+{
+  "source": "$Acquisition$ must occur within #30 days# before $Loan Start$.",
+  "ast": {
+    "shape": "sequencing",
+    "event": {
+      "term": "Acquisition"
+    },
+    "relation": "within_before",
+    "duration": {
+      "value": 30,
+      "unit": "day"
+    },
+    "anchor": {
+      "term": "Loan Start"
+    }
+  }
+}

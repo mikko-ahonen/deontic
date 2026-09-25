@@ -1,0 +1,24 @@
+{
+  "source": "Every $$exhibits$$ tagged featured must @have@ a $catalogue entry$.",
+  "note": "Interpretation rule 5: the plural marker names the same type; the parser records the plural flag and the text as written, resolution maps it.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "exhibits",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "catalogue entry"
+      }
+    }
+  }
+}

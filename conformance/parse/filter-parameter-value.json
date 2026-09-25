@@ -1,0 +1,20 @@
+{
+  "source": "$Selected Policy$ means any $policy document$ where version is <selected version>.",
+  "note": "`<name>` is a parameter bound from outside the sentence.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Selected Policy",
+    "type": {
+      "term": "policy document"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "version"
+      ],
+      "value": {
+        "parameter": "selected version"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "source": "$Acme Lender$ means any $lender$ where name starts with \"Acme\" and name ends with \"Ltd\" and name contains \"Museum\".",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Acme Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "starts_with",
+          "path": [
+            "name"
+          ],
+          "value": {
+            "text": "Acme"
+          }
+        },
+        {
+          "op": "ends_with",
+          "path": [
+            "name"
+          ],
+          "value": {
+            "text": "Ltd"
+          }
+        },
+        {
+          "op": "contains",
+          "path": [
+            "name"
+          ],
+          "value": {
+            "text": "Museum"
+          }
+        }
+      ]
+    }
+  }
+}

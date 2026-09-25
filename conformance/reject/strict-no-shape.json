@@ -1,0 +1,8 @@
+{
+  "source": "Every $exhibit$ should probably @have@ something like a $catalogue entry$.",
+  "strictness": "strict",
+  "note": "The same source parses as pre_formal in permissive mode (parse/gradient-pre-formal).",
+  "error": {
+    "code": "no_shape"
+  }
+}

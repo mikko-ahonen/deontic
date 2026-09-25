@@ -1,0 +1,25 @@
+{
+  "source": "If a $loan$ is tagged overdue, then $Registrar$ must @have@ a $reminder$.",
+  "note": "The consequent's subject need not be the condition's; then the condition is an existence test.",
+  "ast": {
+    "shape": "conditional",
+    "condition": {
+      "term": "loan",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "overdue"
+        ]
+      }
+    },
+    "subject": {
+      "term": "Registrar"
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "reminder"
+      }
+    }
+  }
+}

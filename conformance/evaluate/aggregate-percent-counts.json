@@ -1,0 +1,84 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "$Handling Training$ means any $course$ tagged mandatory and safety.",
+    "At least #75 percent# of $$curators$$ must @have completed@ $Handling Training$ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "k1",
+        "type": "course",
+        "tags": [
+          "mandatory",
+          "safety"
+        ],
+        "fields": {
+          "title": "Handling"
+        }
+      },
+      {
+        "id": "c1",
+        "type": "curator",
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "c3",
+        "type": "curator",
+        "fields": {
+          "name": "C"
+        }
+      },
+      {
+        "id": "c4",
+        "type": "curator",
+        "fields": {
+          "name": "D"
+        }
+      },
+      {
+        "id": "p1",
+        "type": "completion",
+        "fields": {
+          "curator": "c1",
+          "course": "k1",
+          "completed on": "2026-01-01"
+        }
+      },
+      {
+        "id": "p2",
+        "type": "completion",
+        "fields": {
+          "curator": "c2",
+          "course": "k1",
+          "completed on": "2026-01-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "c3",
+        "c4"
+      ],
+      "counts": {
+        "matching": 2,
+        "total": 4,
+        "percent": 50
+      }
+    }
+  ]
+}

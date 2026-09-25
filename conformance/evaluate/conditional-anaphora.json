@@ -1,0 +1,68 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "c3 is not remote and is not judged.",
+  "sentences": [
+    "$Remote Handling Training$ means any $course$ tagged remote.",
+    "If a $curator$ is tagged remote, then the $curator$ must @have completed@ $Remote Handling Training$ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "k1",
+        "type": "course",
+        "tags": [
+          "remote"
+        ],
+        "fields": {
+          "title": "Remote"
+        }
+      },
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "remote"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "tags": [
+          "remote"
+        ],
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "c3",
+        "type": "curator",
+        "fields": {
+          "name": "C"
+        }
+      },
+      {
+        "id": "p1",
+        "type": "completion",
+        "fields": {
+          "curator": "c1",
+          "course": "k1",
+          "completed on": "2026-01-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "c2"
+      ]
+    }
+  ]
+}

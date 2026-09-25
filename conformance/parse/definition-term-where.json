@@ -1,0 +1,19 @@
+{
+  "source": "$Active Curator$ means any $curator$ where status is active.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Active Curator",
+    "type": {
+      "term": "curator"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "status"
+      ],
+      "value": {
+        "text": "active"
+      }
+    }
+  }
+}

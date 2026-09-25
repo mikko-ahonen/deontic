@@ -1,10 +1,7 @@
 # The deontic constraint language — public grammar, AST and conformance corpus.
 #
-# This repository is deliberately outside telamon's generation. It is public,
-# and what the templates emit is not: the sops Dockerfile stage installs
-# tulisalama-tools over SSH from a private Gitea and wires a hub token, and the
-# CLAUDE.md template injects the fleet's internal coordination section verbatim.
-# Registered in telamon as `managed: none` for inventory and naming only.
+# This repository is maintained by hand rather than generated from a project
+# template, because it is public and the templates are not.
 #
 # Published to pypi.org from GitHub Actions via trusted publishing (OIDC), so
 # no API token exists at rest anywhere.
@@ -32,7 +29,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "jsonschema"]
 
 [project.urls]
 Homepage = "https://github.com/mikko-ahonen/deontic"

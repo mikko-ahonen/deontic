@@ -1,0 +1,28 @@
+{
+  "source": "$Special Exhibit$ means any $exhibit$ tagged fragile or tagged featured.",
+  "note": "Only `and` continues a tag list; `or` starts a new filter atom.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Special Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "or",
+      "items": [
+        {
+          "op": "tagged",
+          "tags": [
+            "fragile"
+          ]
+        },
+        {
+          "op": "tagged",
+          "tags": [
+            "featured"
+          ]
+        }
+      ]
+    }
+  }
+}

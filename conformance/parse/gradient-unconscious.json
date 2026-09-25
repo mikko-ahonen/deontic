@@ -1,0 +1,7 @@
+{
+  "source": "Exhibits are catalogued when they arrive.",
+  "note": "Plain prose with no markers: the implementation cannot see it, and reports so rather than failing.",
+  "ast": {
+    "shape": "unconscious"
+  }
+}

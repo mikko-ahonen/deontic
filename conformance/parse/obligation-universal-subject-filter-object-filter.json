@@ -1,0 +1,29 @@
+{
+  "source": "Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage.",
+  "note": "Interpretation rule 1: each filter modifies the nearest preceding noun.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "fragile"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "be located in",
+      "object": {
+        "term": "gallery",
+        "filter": {
+          "op": "tagged",
+          "tags": [
+            "storage"
+          ]
+        }
+      }
+    }
+  }
+}

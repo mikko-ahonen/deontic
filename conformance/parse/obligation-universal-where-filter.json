@@ -1,0 +1,25 @@
+{
+  "source": "Every $loan$ where status is open must @have@ a $lender$.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "loan",
+      "filter": {
+        "op": "is",
+        "path": [
+          "status"
+        ],
+        "value": {
+          "text": "open"
+        }
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "lender"
+      }
+    }
+  }
+}

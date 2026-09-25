@@ -1,0 +1,315 @@
+{
+  "name": "museum",
+  "note": "Fixture lexicon for the conformance corpus. Invented and deliberately dull: it exists so that every construct of the language can be exercised once, not to model any real domain. Its file layout is provisional until the dictionary schema is fixed; the meaning of each verb is stated in prose under 'means' so that an implementer can reproduce the evaluate/ cases.",
+  "strictness": "permissive",
+  "types": {
+    "exhibit": {
+      "plural": "exhibits",
+      "fields": {
+        "title": "text",
+        "status": "text",
+        "acquired on": "date",
+        "value": "number",
+        "condition score": "number",
+        "gallery": {
+          "reference": "gallery"
+        },
+        "lender": {
+          "reference": "lender"
+        }
+      },
+      "tags": [
+        "fragile",
+        "featured",
+        "draft",
+        "on-loan",
+        "insured",
+        "photographed"
+      ]
+    },
+    "gallery": {
+      "plural": "galleries",
+      "fields": {
+        "name": "text",
+        "floor": "number",
+        "capacity": "number",
+        "status": "text"
+      },
+      "tags": [
+        "public",
+        "storage"
+      ]
+    },
+    "curator": {
+      "plural": "curators",
+      "fields": {
+        "name": "text",
+        "status": "text",
+        "hired on": "date",
+        "department": {
+          "reference": "department"
+        }
+      },
+      "tags": [
+        "senior",
+        "remote"
+      ]
+    },
+    "department": {
+      "plural": "departments",
+      "fields": {
+        "name": "text"
+      }
+    },
+    "lender": {
+      "plural": "lenders",
+      "fields": {
+        "name": "text",
+        "status": "text",
+        "type": "text",
+        "country": "text",
+        "verified": "boolean"
+      }
+    },
+    "loan": {
+      "plural": "loans",
+      "fields": {
+        "exhibit": {
+          "reference": "exhibit"
+        },
+        "lender": {
+          "reference": "lender"
+        },
+        "approver": {
+          "reference": "curator"
+        },
+        "requester": {
+          "reference": "curator"
+        },
+        "starts on": "date",
+        "due on": "date",
+        "returned on": "date",
+        "status": "text"
+      },
+      "tags": [
+        "overdue"
+      ]
+    },
+    "reminder": {
+      "plural": "reminders",
+      "fields": {
+        "loan": {
+          "reference": "loan"
+        },
+        "sent on": "date"
+      }
+    },
+    "inspection": {
+      "plural": "inspections",
+      "fields": {
+        "gallery": {
+          "reference": "gallery"
+        },
+        "inspector": {
+          "reference": "curator"
+        },
+        "inspected on": "date",
+        "result": "text"
+      }
+    },
+    "course": {
+      "plural": "courses",
+      "fields": {
+        "title": "text"
+      },
+      "tags": [
+        "mandatory",
+        "safety",
+        "remote"
+      ]
+    },
+    "completion": {
+      "plural": "completions",
+      "fields": {
+        "curator": {
+          "reference": "curator"
+        },
+        "course": {
+          "reference": "course"
+        },
+        "completed on": "date"
+      }
+    },
+    "catalogue entry": {
+      "plural": "catalogue entries",
+      "fields": {
+        "exhibit": {
+          "reference": "exhibit"
+        },
+        "published on": "date",
+        "status": "text"
+      },
+      "tags": [
+        "draft"
+      ]
+    },
+    "policy document": {
+      "plural": "policy documents",
+      "fields": {
+        "title": "text",
+        "status": "text",
+        "effective on": "date",
+        "version": "number"
+      }
+    },
+    "report": {
+      "plural": "reports",
+      "fields": {
+        "title": "text",
+        "author": {
+          "reference": "curator"
+        },
+        "published on": "date"
+      },
+      "tags": [
+        "collection"
+      ]
+    },
+    "device": {
+      "plural": "devices",
+      "fields": {
+        "name": "text",
+        "status": "text"
+      }
+    },
+    "reading": {
+      "plural": "readings",
+      "fields": {
+        "gallery": {
+          "reference": "gallery"
+        },
+        "device": {
+          "reference": "device"
+        },
+        "measured on": "date",
+        "humidity": "number",
+        "available": "boolean"
+      }
+    }
+  },
+  "verbs": {
+    "exist": {
+      "object": "none",
+      "means": "core; the existence shape"
+    },
+    "have": {
+      "object": "entity",
+      "means": "the subject has the object: either a field of the subject declared as a reference to the object's type is set (to any entity matching the object's filter), or an entity of the object's type exists whose reference field of the subject's type points at the subject"
+    },
+    "have completed": {
+      "synonyms": [
+        "complete"
+      ],
+      "subject": "curator",
+      "object": "course",
+      "means": "a completion exists whose curator is the subject and whose course matches the object; with a time expression, its 'completed on' falls in the window"
+    },
+    "be located in": {
+      "subject": "exhibit",
+      "object": "gallery",
+      "means": "the subject's gallery matches the object"
+    },
+    "be lent to": {
+      "subject": "exhibit",
+      "object": "lender",
+      "means": "a loan exists whose exhibit is the subject, whose lender matches the object, and whose 'returned on' is empty"
+    },
+    "be returned": {
+      "subject": "loan",
+      "object": "none",
+      "means": "the subject's 'returned on' is set; with an anchored time expression, it falls in the window relative to the anchor"
+    },
+    "be inspected": {
+      "subject": "gallery",
+      "object": "none",
+      "means": "an inspection exists whose gallery is the subject; with a time expression, its 'inspected on' falls in the window"
+    },
+    "publish": {
+      "subject": "curator",
+      "object": "report",
+      "means": "a report exists whose author is the subject and which matches the object; with a period, one such report per period"
+    },
+    "review": {
+      "subject": "curator",
+      "object": "entity",
+      "means": "declared for the cadence shape; its evaluation is not exercised by the corpus"
+    },
+    "approve": {
+      "subject": "curator",
+      "object": "loan",
+      "means": "a loan matching the object exists whose approver is the subject"
+    },
+    "be assigned to": {
+      "subject": "curator",
+      "object": "gallery",
+      "means": "declared for the aggregate count shape; its evaluation is not exercised by the corpus"
+    }
+  },
+  "events": {
+    "Acquisition": {
+      "type": "exhibit",
+      "field": "acquired on"
+    },
+    "Loan Start": {
+      "type": "loan",
+      "field": "starts on"
+    },
+    "Due Date": {
+      "type": "loan",
+      "field": "due on"
+    },
+    "Return": {
+      "type": "loan",
+      "field": "returned on"
+    }
+  },
+  "cadences": {
+    "Inspection Period": {
+      "value": 6,
+      "unit": "month"
+    }
+  },
+  "metrics": {
+    "Humidity": {
+      "of": "gallery",
+      "unit": "percent",
+      "means": "the mean of 'humidity' over the readings whose gallery is the subject and whose 'measured on' falls in the window"
+    },
+    "Condition Score": {
+      "of": "exhibit",
+      "means": "the subject's 'condition score' field"
+    },
+    "Availability": {
+      "of": "device",
+      "unit": "percent",
+      "means": "the share of readings whose device is the subject and whose 'measured on' falls in the window that have 'available' true, as a percentage"
+    }
+  },
+  "attesters": {
+    "Registrar": {
+      "kind": "role",
+      "plural": "Registrars"
+    },
+    "Appraisal Service": {
+      "kind": "system",
+      "rubrics": {
+        "appraisal-v2": {
+          "version": 2,
+          "claim": "the exhibit's recorded value is consistent with its most recent appraisal",
+          "confidence": "the judge's estimate that a second appraisal would agree, from 0 to 1"
+        }
+      },
+      "plural": "Appraisal Services"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "source": "No $exhibit$ tagged draft may be tagged featured.",
+  "ast": {
+    "shape": "prohibition",
+    "form": "no_may",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "draft"
+        ]
+      }
+    },
+    "predicate": {
+      "tagged": [
+        "featured"
+      ]
+    }
+  }
+}

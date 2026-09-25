@@ -1,0 +1,22 @@
+{
+  "source": "At least 2 $$curators$$ must @be assigned to@ $Main Gallery$.",
+  "note": "A count prefix with a lexicon verb is an aggregate; with the core verb `exist` it is the existence shape.",
+  "ast": {
+    "shape": "aggregate",
+    "cardinality": {
+      "op": "at_least",
+      "value": 2
+    },
+    "subject": {
+      "term": "curators",
+      "plural": true
+    },
+    "modal": "must",
+    "predicate": {
+      "verb": "be assigned to",
+      "object": {
+        "term": "Main Gallery"
+      }
+    }
+  }
+}

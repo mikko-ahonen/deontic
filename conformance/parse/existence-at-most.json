@@ -1,0 +1,20 @@
+{
+  "source": "At most 2 $$galleries$$ tagged storage must @exist@.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "at_most",
+      "value": 2
+    },
+    "subject": {
+      "term": "galleries",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "storage"
+        ]
+      }
+    }
+  }
+}

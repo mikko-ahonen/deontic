@@ -1,0 +1,10 @@
+{
+  "source": "$External Loan$ means any $loan$ where lender's homeland is Finland.",
+  "lexicon": "museum",
+  "note": "Each step of a possessive path is checked against the type it lands on.",
+  "error": {
+    "code": "unknown_field",
+    "type": "lender",
+    "field": "homeland"
+  }
+}

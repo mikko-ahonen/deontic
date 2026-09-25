@@ -1,0 +1,8 @@
+{
+  "source": "$Acme Lender$ means any $lender$ where name resembles \"Acme\".",
+  "strictness": "strict",
+  "note": "The filter operators are closed-class; a filter that does not parse makes the whole sentence shapeless.",
+  "error": {
+    "code": "no_shape"
+  }
+}

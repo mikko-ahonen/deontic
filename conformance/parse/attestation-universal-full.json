@@ -1,0 +1,35 @@
+{
+  "source": "Every $exhibit$ tagged featured must be attested by at least 2 $$Registrars$$ claiming \"value confirmed\" within the last #90 days#.",
+  "ast": {
+    "shape": "attestation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "min_attesters": 2,
+    "attesters": [
+      {
+        "attester": {
+          "term": "Registrars",
+          "plural": true
+        },
+        "claim": {
+          "text": "value confirmed"
+        }
+      }
+    ],
+    "window": {
+      "kind": "within_last",
+      "duration": {
+        "value": 90,
+        "unit": "day"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "source": "$External Loan$ means any $loan$ where lender's type is external.",
+  "note": "The possessive is the one path notation: `lender's type` is the path [lender, type].",
+  "ast": {
+    "shape": "term_definition",
+    "name": "External Loan",
+    "type": {
+      "term": "loan"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "lender",
+        "type"
+      ],
+      "value": {
+        "text": "external"
+      }
+    }
+  }
+}

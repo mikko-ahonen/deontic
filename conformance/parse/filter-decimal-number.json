@@ -1,0 +1,20 @@
+{
+  "source": "$Cheap Exhibit$ means any $exhibit$ where value is less than 99.5.",
+  "note": "A number token may carry a decimal point; the sentence-final period is still the terminator.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Cheap Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "less_than",
+      "path": [
+        "value"
+      ],
+      "value": {
+        "number": 99.5
+      }
+    }
+  }
+}

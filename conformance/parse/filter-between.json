@@ -1,0 +1,25 @@
+{
+  "source": "$Mid Value Exhibit$ means any $exhibit$ where value is between 1000 and 5000.",
+  "note": "`between` is inclusive at both ends.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Mid Value Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "between",
+      "path": [
+        "value"
+      ],
+      "values": [
+        {
+          "number": 1000
+        },
+        {
+          "number": 5000
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "source": "$Loan Start$ must occur before $Due Date$.",
+  "ast": {
+    "shape": "sequencing",
+    "event": {
+      "term": "Loan Start"
+    },
+    "relation": "before",
+    "anchor": {
+      "term": "Due Date"
+    }
+  }
+}

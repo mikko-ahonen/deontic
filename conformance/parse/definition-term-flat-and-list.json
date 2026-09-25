@@ -1,0 +1,44 @@
+{
+  "source": "$Well Kept Exhibit$ means any $exhibit$ where status is active and condition score is at least 7 and gallery's status is open.",
+  "note": "A flat and-list is one `and` node with all its items, not a nested pair.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Well Kept Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "is",
+          "path": [
+            "status"
+          ],
+          "value": {
+            "text": "active"
+          }
+        },
+        {
+          "op": "at_least",
+          "path": [
+            "condition score"
+          ],
+          "value": {
+            "number": 7
+          }
+        },
+        {
+          "op": "is",
+          "path": [
+            "gallery",
+            "status"
+          ],
+          "value": {
+            "text": "open"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "source": "$Current Loan Policy$ refers to the latest $policy document$ where status is approved ordered by effective on, version.",
+  "note": "`the latest` selects one entity by the ordering; ordering keys are paths, listed most significant first.",
+  "ast": {
+    "shape": "reference_definition",
+    "name": "Current Loan Policy",
+    "selection": "latest",
+    "type": {
+      "term": "policy document"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "status"
+      ],
+      "value": {
+        "text": "approved"
+      }
+    },
+    "order_by": [
+      [
+        "effective on"
+      ],
+      [
+        "version"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "source": "Every $exhibit$ tagged fragile must not @be lent to@ a $lender$ where type is external.",
+  "ast": {
+    "shape": "prohibition",
+    "form": "must_not",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "fragile"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "be lent to",
+      "object": {
+        "term": "lender",
+        "filter": {
+          "op": "is",
+          "path": [
+            "type"
+          ],
+          "value": {
+            "text": "external"
+          }
+        }
+      }
+    }
+  }
+}

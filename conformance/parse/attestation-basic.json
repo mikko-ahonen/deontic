@@ -1,0 +1,24 @@
+{
+  "source": "$Current Loan Policy$ must be attested by a $Registrar$ every year.",
+  "note": "`attested by` is core, not a lexicon verb, so it is unmarked. The minimum number of attesters defaults to one and is omitted.",
+  "ast": {
+    "shape": "attestation",
+    "subject": {
+      "term": "Current Loan Policy"
+    },
+    "attesters": [
+      {
+        "attester": {
+          "term": "Registrar"
+        }
+      }
+    ],
+    "window": {
+      "kind": "every",
+      "period": {
+        "value": 1,
+        "unit": "year"
+      }
+    }
+  }
+}

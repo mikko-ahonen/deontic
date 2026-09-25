@@ -1,0 +1,31 @@
+{
+  "source": "$Fragile Open Exhibit$ means any $exhibit$ tagged fragile and status is open.",
+  "note": "After `and`, words followed by a filter operator are a field path, not another tag.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Fragile Open Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "tagged",
+          "tags": [
+            "fragile"
+          ]
+        },
+        {
+          "op": "is",
+          "path": [
+            "status"
+          ],
+          "value": {
+            "text": "open"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "source": "If a $loan$'s status is overdue, then the $loan$ must @have@ a $reminder$.",
+  "ast": {
+    "shape": "conditional",
+    "condition": {
+      "term": "loan",
+      "filter": {
+        "op": "is",
+        "path": [
+          "status"
+        ],
+        "value": {
+          "text": "overdue"
+        }
+      }
+    },
+    "subject": {
+      "term": "loan",
+      "anaphora": true
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "reminder"
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "$Handling Training$ means any $course$ tagged mandatory and safety.",
+  "note": "A bare word after `and` inside a tag list is another tag when it is not followed by a filter operator (interpretation rule 1 applied to the tag list).",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Handling Training",
+    "type": {
+      "term": "course"
+    },
+    "filter": {
+      "op": "tagged",
+      "tags": [
+        "mandatory",
+        "safety"
+      ]
+    }
+  }
+}

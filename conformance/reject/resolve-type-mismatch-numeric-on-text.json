@@ -1,0 +1,11 @@
+{
+  "source": "$Odd Lender$ means any $lender$ where name is at least 3.",
+  "lexicon": "museum",
+  "error": {
+    "code": "type_mismatch",
+    "type": "lender",
+    "field": "name",
+    "expected": "number",
+    "actual": "text"
+  }
+}

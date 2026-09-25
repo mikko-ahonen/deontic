@@ -1,0 +1,8 @@
+{
+  "source": "No $loan$ tagged overdue must @exist@.",
+  "strictness": "strict",
+  "note": "`No` pairs with `may`; `must` after `No` matches no shape.",
+  "error": {
+    "code": "no_shape"
+  }
+}

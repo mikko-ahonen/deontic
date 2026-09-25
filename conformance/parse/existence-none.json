@@ -1,0 +1,20 @@
+{
+  "source": "No $loan$ tagged overdue may @exist@.",
+  "note": "`No … may exist` is the existence shape with cardinality exactly zero, not a prohibition.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "exactly",
+      "value": 0
+    },
+    "subject": {
+      "term": "loan",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "overdue"
+        ]
+      }
+    }
+  }
+}

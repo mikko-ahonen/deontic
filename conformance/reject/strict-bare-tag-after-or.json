@@ -1,0 +1,8 @@
+{
+  "source": "$Special Exhibit$ means any $exhibit$ tagged fragile or featured.",
+  "strictness": "strict",
+  "note": "Only `and` continues a tag list; after `or` a bare word with no operator is not a filter atom.",
+  "error": {
+    "code": "no_shape"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source": "Every $Active Curator$ must @have completed@ $Handling Training$ within the last #90 days#.",
+  "note": "Units normalise to the singular.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "Active Curator",
+      "every": true
+    },
+    "predicate": {
+      "verb": "have completed",
+      "object": {
+        "term": "Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 90,
+          "unit": "day"
+        }
+      }
+    }
+  }
+}

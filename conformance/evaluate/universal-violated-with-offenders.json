@@ -1,0 +1,74 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "Offenders are the subject entities for which the predicate does not hold; an unset reference field never holds.",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "storage"
+        ],
+        "fields": {
+          "name": "Vault"
+        }
+      },
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase",
+          "gallery": "g1"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Bowl",
+          "gallery": "g2"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Cup"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "x2",
+        "x3"
+      ]
+    }
+  ]
+}

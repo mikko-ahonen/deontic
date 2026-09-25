@@ -1,0 +1,30 @@
+{
+  "source": "Every $exhibit$ should probably @have@ something like a $catalogue entry$.",
+  "note": "Marked but no shape recognised (no modal): pre-formal. In permissive mode this is an answer, not an error; see reject/strict-no-shape.",
+  "ast": {
+    "shape": "pre_formal",
+    "fragments": [
+      {
+        "prose": "Every "
+      },
+      {
+        "term": "exhibit"
+      },
+      {
+        "prose": " should probably "
+      },
+      {
+        "verb": "have"
+      },
+      {
+        "prose": " something like a "
+      },
+      {
+        "term": "catalogue entry"
+      },
+      {
+        "prose": "."
+      }
+    ]
+  }
+}

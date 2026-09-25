@@ -1,0 +1,16 @@
+{
+  "source": "Every $exhibit$ must @have@ a $catalogue entry$.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "exhibit",
+      "every": true
+    },
+    "predicate": {
+      "verb": "have",
+      "object": {
+        "term": "catalogue entry"
+      }
+    }
+  }
+}

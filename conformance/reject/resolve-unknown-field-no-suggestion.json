@@ -1,0 +1,9 @@
+{
+  "source": "$Active Curator$ means any $curator$ where favourite colour is blue.",
+  "lexicon": "museum",
+  "error": {
+    "code": "unknown_field",
+    "type": "curator",
+    "field": "favourite colour"
+  }
+}

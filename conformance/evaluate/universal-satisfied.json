@@ -1,0 +1,67 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "storage"
+        ],
+        "fields": {
+          "name": "Vault"
+        }
+      },
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase",
+          "gallery": "g1"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Bowl",
+          "gallery": "g1"
+        }
+      },
+      {
+        "id": "x3",
+        "type": "exhibit",
+        "fields": {
+          "title": "Anvil",
+          "gallery": "g2"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "satisfied"
+    }
+  ]
+}

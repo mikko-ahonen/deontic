@@ -1,0 +1,57 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "A person's attestation with no claim requirement counts; the system's falls below its own threshold.",
+  "sentences": [
+    "Every $exhibit$ tagged featured must be attested by a $Registrar$ or by $Appraisal Service$ claiming appraisal-v2 with confidence at least 0.9 within the last #30 days#."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "featured"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      },
+      {
+        "id": "x2",
+        "type": "exhibit",
+        "tags": [
+          "featured"
+        ],
+        "fields": {
+          "title": "Bowl"
+        }
+      }
+    ],
+    "attestations": [
+      {
+        "subject": "x1",
+        "attester": "Registrar",
+        "claim": "looks right",
+        "date": "2026-05-20"
+      },
+      {
+        "subject": "x2",
+        "attester": "Appraisal Service",
+        "claim": "appraisal-v2",
+        "date": "2026-05-20",
+        "confidence": 0.85,
+        "system": "appraiser/1.2"
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "x2"
+      ]
+    }
+  ]
+}

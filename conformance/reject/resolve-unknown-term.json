@@ -1,0 +1,9 @@
+{
+  "source": "Every $unicorn$ must @have@ a $catalogue entry$.",
+  "lexicon": "museum",
+  "note": "A marked name that is neither a type, a term, a reference, an event, a cadence, a metric nor an attester in the lexicon.",
+  "error": {
+    "code": "unknown_term",
+    "term": "unicorn"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "source": "Every $exhibit$ must @be located in@ a $gallery$ or must @be lent to@ a $lender$.",
+  "ast": {
+    "shape": "disjunction",
+    "subject": {
+      "term": "exhibit",
+      "every": true
+    },
+    "predicates": [
+      {
+        "verb": "be located in",
+        "object": {
+          "term": "gallery"
+        }
+      },
+      {
+        "verb": "be lent to",
+        "object": {
+          "term": "lender"
+        }
+      }
+    ]
+  }
+}

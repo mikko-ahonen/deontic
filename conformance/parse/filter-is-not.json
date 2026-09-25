@@ -1,0 +1,19 @@
+{
+  "source": "$Foreign Lender$ means any $lender$ where country is not Finland.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Foreign Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "is_not",
+      "path": [
+        "country"
+      ],
+      "value": {
+        "text": "Finland"
+      }
+    }
+  }
+}

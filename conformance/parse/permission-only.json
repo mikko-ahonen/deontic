@@ -1,0 +1,23 @@
+{
+  "source": "Only $$curators$$ tagged senior may @approve@ a $loan$.",
+  "note": "Permission is evaluated as a prohibition on everyone else of the same type.",
+  "ast": {
+    "shape": "permission",
+    "subject": {
+      "term": "curators",
+      "plural": true,
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "senior"
+        ]
+      }
+    },
+    "predicate": {
+      "verb": "approve",
+      "object": {
+        "term": "loan"
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "source": "Every $exhibit$ must @be polished@ within the last year.",
+  "strictness": "strict",
+  "lexicon": "museum",
+  "note": "In permissive mode the same sentence parses and is reported as skipped (evaluate/skipped-unknown-verb).",
+  "error": {
+    "code": "unknown_verb",
+    "verb": "be polished"
+  }
+}

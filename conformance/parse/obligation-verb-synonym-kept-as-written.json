@@ -1,0 +1,24 @@
+{
+  "source": "Every $curator$ must @complete@ $Handling Training$ within the last year.",
+  "note": "The parser records the verb as written (lower-cased, single spaces); synonyms map to the declared verb at resolution.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "curator",
+      "every": true
+    },
+    "predicate": {
+      "verb": "complete",
+      "object": {
+        "term": "Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 1,
+          "unit": "year"
+        }
+      }
+    }
+  }
+}

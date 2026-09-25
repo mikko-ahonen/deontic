@@ -1,9 +1,10 @@
 # deontic — language design
 
-**Status:** planning. This document states what the language is meant to be;
-the grammar, AST and parser are not implemented yet. When they are, the
-[conformance corpus](../conformance/README.md) is the test and this document
-is the rationale. Nothing here describes an evaluator: how a conformant
+**Status:** planning; the [conformance corpus](../conformance/README.md)
+exists and is the specification. This document states what the language is
+meant to be; the grammar, AST and parser are not implemented yet. When they
+are, the corpus is the test and this document is the rationale. Where the
+two disagree, the corpus wins and this document is wrong. Nothing here describes an evaluator: how a conformant
 implementation computes results is its own business.
 
 ## 1. What it is
@@ -36,20 +37,29 @@ own: a grammar with function words and no content words, which is a language
 you cannot say anything in. The closed class, in full, is what defines the
 core:
 
-- quantifiers and cardinality: `every`, `no`, `at least one`, `exactly one`,
-  `zero or one`, `one or more`, `at least N`, `at most N`, `more than`,
-  `less than`, `between … and …`, percentages;
+- quantifiers and cardinality: `every`, `no`, `only`, `at least one`,
+  `exactly one`, `zero or one`, `one or more`, `at least N`, `at most N`,
+  `exactly N`, `between N and M`, the number words one to ten, `percent`;
 - modals: `must`, `may`, `must not`;
-- selection: `the latest`, `the approved`, `ordered by`;
-- filters: `tagged`, `where`, `is`, `is not`, `equals`, `contains`,
-  `starts with`, `ends with`, `is one of`, `is empty`, `exactly`;
+- selection: `the latest`, `ordered by`;
+- filters: `tagged`, `where`, `that`, `is`, `is not`, `equals`, `contains`,
+  `starts with`, `ends with`, `is one of`, `is empty`, `is not empty`, `is
+  true`, `is false`, `is at least`, `is at most`, `is more than`, `is less
+  than`, `is between … and`, `is before`, `is after`, `exactly`, `today`;
 - time: `within the last`, `within … after`, `within … before`, `every`,
-  `before`, `after`, `on`;
+  `before`, `after`, `per`, `occur`, and the period units `hour`, `day`,
+  `week`, `month`, `quarter`, `year`, `calendar week`, `calendar month`,
+  `calendar year`;
 - definition: `means any`, `refers to`;
-- evidence: `attested by`, `claiming`, `evidenced by`;
+- core predicates: `exist`, `be tagged`;
+- evidence: `attested by`, `or by`, `claiming`, `with confidence at least`;
 - scope: `in scope of`;
 - connectives and anaphora: `and`, `or`, `either … or`, `if … then`, `the
-  <noun>`, the possessive `'s`.
+  <noun>`, `a`, `an`, `of`, the possessive `'s`.
+
+This is the list the corpus fixes (its README, *Decisions*, item 4). Words
+that earlier drafts listed but no case exercises — `the approved`,
+`evidenced by`, `on` — are not in the language.
 
 A word not on this list is lexicon. A **lexicon** makes the core usable by
 supplying:
@@ -159,7 +169,11 @@ version is <selected version>
 
 - Text comparison is case-insensitive unless `exactly` is used.
 - Traversal is the possessive: `customer's type`. One path notation, used
-  everywhere the language addresses a field.
+  everywhere the language addresses a field. Each step follows a reference
+  field the lexicon declares.
+- A reverse relation — the entities that some other entity points at — is
+  reached with a lexicon predicate as a filter: `any curator that approves a
+  loan`. `that` is the only filter word that takes a verb.
 - `<name>` is a **parameter**, bound from outside the sentence — a profile,
   a dataset, a configuration. Thresholds that vary per deployment are
   parameters, never literals copied into every sentence.
@@ -320,16 +334,22 @@ list" permits both). The one genuine deontic problem, what you ought to do
 application by §3, and deliberately so: a waiver is a recorded decision, not
 a norm.
 
-## 16. Open decisions
+## 16. Decisions the corpus settled
 
-- The parameter sigil: `<name>` is proposed, since the grammar templates in
-  this document already use angle brackets for metavariables.
-- The path notation: the possessive is proposed; a dotted form is the
-  alternative.
-- Whether `self` enters the core, or stays with the first lexicon that needs
-  a bound subject inside a filter.
-- The exact closed-class list in §2 is normative intent; the conformance
-  corpus will fix it.
+The questions this section used to hold are closed by the conformance
+corpus; its README records each with the case that fixes it:
+
+- the parameter sigil is `<name>`;
+- the path notation is the possessive; there is no dotted form;
+- `self` is not in the core, by the rule of two;
+- the closed-class list in §2 is the one the cases exercise; a word with no
+  case is not in the language;
+- `that <verb> <object>` is a filter and `be tagged` is a core predicate,
+  both needed by the first two lexicons;
+- markers are required on lexicon names, lexicon verbs, quantities with a
+  unit and parameters, and on nothing else;
+- anaphora resolves within the sentence;
+- a sentence ends with a period.
 
 ## References
 

@@ -1,0 +1,10 @@
+{
+  "source": "Every $exhibit$ tagged featured must be attested by $Appraisal Service$ claiming appraisal-v9 within the last #30 days#.",
+  "lexicon": "museum",
+  "note": "A rubric is referenced by id and version and must be declared next to its attester kind.",
+  "error": {
+    "code": "unknown_rubric",
+    "attester": "Appraisal Service",
+    "rubric": "appraisal-v9"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source": "$Closed Loan$ means any $loan$ where returned on is not empty.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Closed Loan",
+    "type": {
+      "term": "loan"
+    },
+    "filter": {
+      "op": "is_not_empty",
+      "path": [
+        "returned on"
+      ]
+    }
+  }
+}

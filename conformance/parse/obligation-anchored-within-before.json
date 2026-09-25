@@ -1,0 +1,23 @@
+{
+  "source": "Every $loan$ must @be approved@ within #7 days# before $Loan Start$.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "loan",
+      "every": true
+    },
+    "predicate": {
+      "verb": "be approved",
+      "time": {
+        "kind": "within_before",
+        "duration": {
+          "value": 7,
+          "unit": "day"
+        },
+        "event": {
+          "term": "Loan Start"
+        }
+      }
+    }
+  }
+}

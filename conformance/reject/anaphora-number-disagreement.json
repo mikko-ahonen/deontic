@@ -1,0 +1,8 @@
+{
+  "source": "If a $curator$ is tagged remote, then the $$curators$$ must @have completed@ $Handling Training$ within the last year.",
+  "note": "The antecedent must agree in number.",
+  "error": {
+    "code": "unresolved_anaphora",
+    "noun": "curators"
+  }
+}

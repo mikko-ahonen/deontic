@@ -1,0 +1,41 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "Definitions are not constraints: outcomes list only sentence 2.",
+  "sentences": [
+    "$Fragile Exhibit$ means any $exhibit$ tagged fragile.",
+    "$Vault$ refers to exactly one $gallery$ where name is \"Vault\".",
+    "Every $Fragile Exhibit$ must @be located in@ $Vault$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "storage"
+        ],
+        "fields": {
+          "name": "Vault"
+        }
+      },
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase",
+          "gallery": "g1"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 2,
+      "outcome": "satisfied"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "source": "$Main Hall$ means any $gallery$ where name is \"Main Hall\".",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Main Hall",
+    "type": {
+      "term": "gallery"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "name"
+      ],
+      "value": {
+        "text": "Main Hall"
+      }
+    }
+  }
+}

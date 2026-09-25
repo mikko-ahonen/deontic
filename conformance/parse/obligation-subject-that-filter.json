@@ -1,0 +1,32 @@
+{
+  "source": "Every $curator$ that @approves@ a $loan$ must @have completed@ $Handling Training$ within the last year.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "curator",
+      "filter": {
+        "op": "that",
+        "predicate": {
+          "verb": "approves",
+          "object": {
+            "term": "loan"
+          }
+        }
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "have completed",
+      "object": {
+        "term": "Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 1,
+          "unit": "year"
+        }
+      }
+    }
+  }
+}

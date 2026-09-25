@@ -1,0 +1,29 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "sentences": [
+    "At least one $curator$ tagged senior must @exist@."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "fields": {
+          "name": "A",
+          "status": "active"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "counts": {
+        "found": 0,
+        "required": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "source": "$Storage Gallery$ refers to at least one $gallery$ tagged storage.",
+  "ast": {
+    "shape": "reference_definition",
+    "name": "Storage Gallery",
+    "cardinality": {
+      "op": "at_least",
+      "value": 1
+    },
+    "type": {
+      "term": "gallery"
+    },
+    "filter": {
+      "op": "tagged",
+      "tags": [
+        "storage"
+      ]
+    }
+  }
+}

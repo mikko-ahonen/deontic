@@ -1,0 +1,11 @@
+{
+  "source": "$Odd Exhibit$ means any $exhibit$ where value is before today.",
+  "lexicon": "museum",
+  "error": {
+    "code": "type_mismatch",
+    "type": "exhibit",
+    "field": "value",
+    "expected": "date",
+    "actual": "number"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "source": "$Artefact$ means any $exhibit$.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Artefact",
+    "type": {
+      "term": "exhibit"
+    }
+  }
+}

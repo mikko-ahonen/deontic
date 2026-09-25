@@ -1,0 +1,40 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-25",
+  "note": "A parameter without a binding cannot be judged.",
+  "sentences": [
+    "$Main Gallery$ refers to exactly one $gallery$ where name is \"Main\".",
+    "The $Humidity$ of $Main Gallery$ must be at most <maximum humidity> per calendar month."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "r1",
+        "type": "reading",
+        "fields": {
+          "gallery": "g1",
+          "humidity": 50,
+          "measured on": "2026-06-03"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "skipped",
+      "reason": "unbound_parameter",
+      "parameter": "maximum humidity"
+    }
+  ]
+}

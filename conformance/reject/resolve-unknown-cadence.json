@@ -1,0 +1,8 @@
+{
+  "source": "Every $gallery$ tagged public must @be inspected@ every $Audit Cycle$.",
+  "lexicon": "museum",
+  "error": {
+    "code": "unknown_term",
+    "term": "Audit Cycle"
+  }
+}

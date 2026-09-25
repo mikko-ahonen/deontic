@@ -1,0 +1,62 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "c3 approves nothing and is outside the term.",
+  "sentences": [
+    "$Approving Curator$ means any $curator$ that @approves@ a $loan$.",
+    "Every $Approving Curator$ must be tagged senior."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "c3",
+        "type": "curator",
+        "fields": {
+          "name": "C"
+        }
+      },
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "approver": "c1",
+          "status": "approved"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "approver": "c2",
+          "status": "approved"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "c2"
+      ]
+    }
+  ]
+}

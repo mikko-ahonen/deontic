@@ -1,0 +1,16 @@
+{
+  "source": "$Fragile Exhibit$ means any $exhibit$ tagged fragile.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Fragile Exhibit",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "tagged",
+      "tags": [
+        "fragile"
+      ]
+    }
+  }
+}

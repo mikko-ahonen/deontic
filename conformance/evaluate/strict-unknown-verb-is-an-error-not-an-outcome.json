@@ -1,0 +1,32 @@
+{
+  "lexicon": "museum",
+  "strictness": "strict",
+  "as_of": "2026-06-01",
+  "note": "Strict strictness fails closed: no outcome is produced for the sentence.",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must @be polished@ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "error": {
+        "code": "unknown_verb",
+        "verb": "be polished"
+      }
+    }
+  ]
+}

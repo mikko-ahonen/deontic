@@ -1,0 +1,427 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mikko-ahonen/deontic/conformance/ast.schema.json",
+  "title": "deontic sentence AST",
+  "description": "The expected `ast` of a parse case. Keys whose value would be null, false, an empty list or an empty object are omitted (see README, Canonical form).",
+  "$ref": "#/$defs/sentence",
+  "$defs": {
+    "sentence": {
+      "oneOf": [
+        {"$ref": "#/$defs/term_definition"},
+        {"$ref": "#/$defs/reference_definition"},
+        {"$ref": "#/$defs/obligation"},
+        {"$ref": "#/$defs/conditional"},
+        {"$ref": "#/$defs/prohibition"},
+        {"$ref": "#/$defs/permission"},
+        {"$ref": "#/$defs/existence"},
+        {"$ref": "#/$defs/aggregate"},
+        {"$ref": "#/$defs/threshold"},
+        {"$ref": "#/$defs/cadence"},
+        {"$ref": "#/$defs/sequencing"},
+        {"$ref": "#/$defs/attestation"},
+        {"$ref": "#/$defs/disjunction"},
+        {"$ref": "#/$defs/pre_formal"},
+        {"$ref": "#/$defs/unconscious"}
+      ]
+    },
+
+    "name": {"type": "string", "minLength": 1, "description": "Marker content as written, whitespace-normalised."},
+
+    "noun_phrase": {
+      "type": "object",
+      "description": "A subject, object, scope, target, attester or definition base. `term` is the marker content; the parser does not know what role the lexicon gives it.",
+      "properties": {
+        "term": {"$ref": "#/$defs/name"},
+        "plural": {"const": true, "description": "Present when written with the `$$…$$` marker."},
+        "filter": {"$ref": "#/$defs/filter"},
+        "every": {"const": true, "description": "Universally quantified (`Every …`)."},
+        "anaphora": {"const": true, "description": "`the <noun>`, resolved to the most recent agreeing noun phrase."},
+        "cardinality": {"$ref": "#/$defs/cardinality", "description": "On an object: `at least one`, `exactly one`, …"}
+      },
+      "required": ["term"],
+      "additionalProperties": false
+    },
+
+    "cardinality": {
+      "type": "object",
+      "properties": {
+        "op": {"enum": ["at_least", "at_most", "exactly", "between"]},
+        "value": {"oneOf": [{"type": "integer", "minimum": 0}, {"$ref": "#/$defs/quantity"}], "description": "An integer count, or a percent quantity in the aggregate shape."},
+        "max": {"type": "integer", "description": "Upper bound of `between`."}
+      },
+      "required": ["op", "value"],
+      "additionalProperties": false
+    },
+
+    "quantity": {
+      "type": "object",
+      "properties": {
+        "value": {"type": "number"},
+        "unit": {"type": "string", "description": "Singular unit; absent for a bare number."}
+      },
+      "required": ["value"],
+      "additionalProperties": false
+    },
+
+    "parameter": {
+      "type": "object",
+      "properties": {"parameter": {"$ref": "#/$defs/name"}},
+      "required": ["parameter"],
+      "additionalProperties": false
+    },
+
+    "value": {
+      "description": "A literal in a filter or threshold.",
+      "oneOf": [
+        {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"], "additionalProperties": false},
+        {"type": "object", "properties": {"number": {"type": "number"}}, "required": ["number"], "additionalProperties": false},
+        {"type": "object", "properties": {"boolean": {"type": "boolean"}}, "required": ["boolean"], "additionalProperties": false},
+        {"type": "object", "properties": {"date": {"type": "string", "format": "date"}}, "required": ["date"], "additionalProperties": false},
+        {"type": "object", "properties": {"today": {"const": true}}, "required": ["today"], "additionalProperties": false, "description": "The evaluation date."},
+        {"$ref": "#/$defs/parameter"}
+      ]
+    },
+
+    "path": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "description": "Field path; every step but the last is a reference field. `lender's type` is [\"lender\", \"type\"]."
+    },
+
+    "filter": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {"enum": ["and", "or"]},
+            "items": {"type": "array", "items": {"$ref": "#/$defs/filter"}, "minItems": 2}
+          },
+          "required": ["op", "items"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"const": "tagged"},
+            "tags": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "All must be present."}
+          },
+          "required": ["op", "tags"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"const": "that"},
+            "predicate": {"$ref": "#/$defs/predicate"}
+          },
+          "required": ["op", "predicate"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"enum": ["is", "is_not", "contains", "starts_with", "ends_with", "at_least", "at_most", "more_than", "less_than", "before", "after"]},
+            "path": {"$ref": "#/$defs/path"},
+            "value": {"$ref": "#/$defs/value"},
+            "exact": {"const": true, "description": "Case-sensitive text comparison (`exactly`)."}
+          },
+          "required": ["op", "path", "value"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"enum": ["is_one_of", "between"]},
+            "path": {"$ref": "#/$defs/path"},
+            "values": {"type": "array", "items": {"$ref": "#/$defs/value"}, "minItems": 1}
+          },
+          "required": ["op", "path", "values"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"enum": ["is_empty", "is_not_empty"]},
+            "path": {"$ref": "#/$defs/path"}
+          },
+          "required": ["op", "path"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {"const": "equals"},
+            "path": {"$ref": "#/$defs/path"},
+            "other": {"$ref": "#/$defs/path"}
+          },
+          "required": ["op", "path", "other"],
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "event": {
+      "type": "object",
+      "description": "A date-bearing anchor: a lexicon event by name, or a field reached from an anaphoric noun.",
+      "properties": {
+        "term": {"$ref": "#/$defs/name"},
+        "anaphora": {"const": true},
+        "path": {"$ref": "#/$defs/path"}
+      },
+      "required": ["term"],
+      "additionalProperties": false
+    },
+
+    "period": {
+      "oneOf": [
+        {"$ref": "#/$defs/quantity"},
+        {"type": "object", "properties": {"cadence": {"$ref": "#/$defs/name"}}, "required": ["cadence"], "additionalProperties": false}
+      ]
+    },
+
+    "time": {
+      "oneOf": [
+        {"type": "object", "properties": {"kind": {"const": "within_last"}, "duration": {"$ref": "#/$defs/quantity"}}, "required": ["kind", "duration"], "additionalProperties": false},
+        {"type": "object", "properties": {"kind": {"enum": ["within_after", "within_before"]}, "duration": {"$ref": "#/$defs/quantity"}, "event": {"$ref": "#/$defs/event"}}, "required": ["kind", "duration", "event"], "additionalProperties": false},
+        {"type": "object", "properties": {"kind": {"enum": ["before", "after"]}, "event": {"$ref": "#/$defs/event"}}, "required": ["kind", "event"], "additionalProperties": false},
+        {"type": "object", "properties": {"kind": {"const": "every"}, "period": {"$ref": "#/$defs/period"}}, "required": ["kind", "period"], "additionalProperties": false}
+      ]
+    },
+
+    "predicate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "description": "A lexicon verb, as marked, with an optional object and time expression.",
+          "properties": {
+            "verb": {"$ref": "#/$defs/name"},
+            "object": {"$ref": "#/$defs/noun_phrase"},
+            "time": {"$ref": "#/$defs/time"}
+          },
+          "required": ["verb"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "description": "The core predicate `be tagged <tags>`.",
+          "properties": {"tagged": {"type": "array", "items": {"type": "string"}, "minItems": 1}},
+          "required": ["tagged"],
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "term_definition": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "term_definition"},
+        "name": {"$ref": "#/$defs/name"},
+        "type": {"$ref": "#/$defs/noun_phrase"},
+        "filter": {"$ref": "#/$defs/filter"}
+      },
+      "required": ["shape", "name", "type"],
+      "additionalProperties": false
+    },
+
+    "reference_definition": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "reference_definition"},
+        "name": {"$ref": "#/$defs/name"},
+        "cardinality": {"$ref": "#/$defs/cardinality"},
+        "selection": {"enum": ["latest"]},
+        "type": {"$ref": "#/$defs/noun_phrase"},
+        "filter": {"$ref": "#/$defs/filter"},
+        "order_by": {"type": "array", "items": {"$ref": "#/$defs/path"}, "minItems": 1}
+      },
+      "required": ["shape", "name", "type"],
+      "additionalProperties": false
+    },
+
+    "obligation": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "obligation"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "predicate": {"$ref": "#/$defs/predicate"}
+      },
+      "required": ["shape", "subject", "predicate"],
+      "additionalProperties": false
+    },
+
+    "conditional": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "conditional"},
+        "condition": {"$ref": "#/$defs/noun_phrase"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "predicate": {"$ref": "#/$defs/predicate"}
+      },
+      "required": ["shape", "condition", "subject", "predicate"],
+      "additionalProperties": false
+    },
+
+    "prohibition": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "prohibition"},
+        "form": {"enum": ["no_may", "must_not"]},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "predicate": {"$ref": "#/$defs/predicate"}
+      },
+      "required": ["shape", "form", "subject", "predicate"],
+      "additionalProperties": false
+    },
+
+    "permission": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "permission"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "predicate": {"$ref": "#/$defs/predicate"}
+      },
+      "required": ["shape", "subject", "predicate"],
+      "additionalProperties": false
+    },
+
+    "existence": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "existence"},
+        "cardinality": {"$ref": "#/$defs/cardinality"},
+        "subject": {"$ref": "#/$defs/noun_phrase"}
+      },
+      "required": ["shape", "cardinality", "subject"],
+      "additionalProperties": false
+    },
+
+    "aggregate": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "aggregate"},
+        "cardinality": {"$ref": "#/$defs/cardinality"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "scope": {"$ref": "#/$defs/noun_phrase"},
+        "modal": {"enum": ["must", "may"]},
+        "predicate": {"$ref": "#/$defs/predicate"}
+      },
+      "required": ["shape", "cardinality", "subject", "modal", "predicate"],
+      "additionalProperties": false
+    },
+
+    "threshold": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "threshold"},
+        "metric": {"$ref": "#/$defs/name"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "op": {"enum": ["at_least", "at_most", "exactly", "more_than", "less_than"]},
+        "value": {"oneOf": [{"$ref": "#/$defs/quantity"}, {"$ref": "#/$defs/parameter"}]},
+        "window": {"$ref": "#/$defs/quantity"}
+      },
+      "required": ["shape", "metric", "subject", "op", "value"],
+      "additionalProperties": false
+    },
+
+    "cadence": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "cadence"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "verb": {"$ref": "#/$defs/name"},
+        "target": {"$ref": "#/$defs/noun_phrase"},
+        "period": {"$ref": "#/$defs/period"}
+      },
+      "required": ["shape", "subject", "verb", "period"],
+      "additionalProperties": false
+    },
+
+    "sequencing": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "sequencing"},
+        "event": {"$ref": "#/$defs/event"},
+        "relation": {"enum": ["before", "after", "within_after", "within_before"]},
+        "duration": {"$ref": "#/$defs/quantity"},
+        "anchor": {"$ref": "#/$defs/event"}
+      },
+      "required": ["shape", "event", "relation", "anchor"],
+      "additionalProperties": false
+    },
+
+    "attestation": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "attestation"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "min_attesters": {"type": "integer", "minimum": 2, "description": "Absent means one."},
+        "attesters": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Alternatives (`or by`); any one satisfies.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "attester": {"$ref": "#/$defs/noun_phrase"},
+              "claim": {
+                "oneOf": [
+                  {"type": "object", "properties": {"text": {"type": "string"}}, "required": ["text"], "additionalProperties": false},
+                  {"type": "object", "properties": {"rubric": {"type": "string"}}, "required": ["rubric"], "additionalProperties": false}
+                ]
+              },
+              "confidence_at_least": {"type": "number", "minimum": 0, "maximum": 1}
+            },
+            "required": ["attester"],
+            "additionalProperties": false
+          }
+        },
+        "window": {"$ref": "#/$defs/time"}
+      },
+      "required": ["shape", "subject", "attesters", "window"],
+      "additionalProperties": false
+    },
+
+    "disjunction": {
+      "type": "object",
+      "properties": {
+        "shape": {"const": "disjunction"},
+        "subject": {"$ref": "#/$defs/noun_phrase"},
+        "predicates": {"type": "array", "items": {"$ref": "#/$defs/predicate"}, "minItems": 2}
+      },
+      "required": ["shape", "subject", "predicates"],
+      "additionalProperties": false
+    },
+
+    "pre_formal": {
+      "type": "object",
+      "description": "Marked but no shape recognised: the typed fragments in order, prose kept verbatim.",
+      "properties": {
+        "shape": {"const": "pre_formal"},
+        "fragments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "oneOf": [
+              {"type": "object", "properties": {"prose": {"type": "string"}}, "required": ["prose"], "additionalProperties": false},
+              {"type": "object", "properties": {"term": {"$ref": "#/$defs/name"}, "plural": {"const": true}}, "required": ["term"], "additionalProperties": false},
+              {"type": "object", "properties": {"verb": {"$ref": "#/$defs/name"}}, "required": ["verb"], "additionalProperties": false},
+              {"type": "object", "properties": {"quantity": {"$ref": "#/$defs/quantity"}}, "required": ["quantity"], "additionalProperties": false},
+              {"$ref": "#/$defs/parameter"}
+            ]
+          }
+        }
+      },
+      "required": ["shape", "fragments"],
+      "additionalProperties": false
+    },
+
+    "unconscious": {
+      "type": "object",
+      "description": "No markers at all: plain prose the implementation cannot see.",
+      "properties": {"shape": {"const": "unconscious"}},
+      "required": ["shape"],
+      "additionalProperties": false
+    }
+  }
+}

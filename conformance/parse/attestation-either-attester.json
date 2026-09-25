@@ -1,0 +1,40 @@
+{
+  "source": "Every $exhibit$ tagged featured must be attested by a $Registrar$ or by $Appraisal Service$ claiming appraisal-v2 with confidence at least 0.9 within the last #30 days#.",
+  "note": "A human confirmation and a system's judgement are the same kind of fact; `or by` lists alternative attesters, each with its own claim and confidence.",
+  "ast": {
+    "shape": "attestation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "attesters": [
+      {
+        "attester": {
+          "term": "Registrar"
+        }
+      },
+      {
+        "attester": {
+          "term": "Appraisal Service"
+        },
+        "claim": {
+          "rubric": "appraisal-v2"
+        },
+        "confidence_at_least": 0.9
+      }
+    ],
+    "window": {
+      "kind": "within_last",
+      "duration": {
+        "value": 30,
+        "unit": "day"
+      }
+    }
+  }
+}

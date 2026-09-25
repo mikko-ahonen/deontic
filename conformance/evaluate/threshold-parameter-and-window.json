@@ -1,0 +1,66 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-25",
+  "parameters": {
+    "maximum humidity": 55
+  },
+  "note": "The window is the calendar month containing the evaluation date; the May reading is outside it. Mean of 50 and 64 is 57.",
+  "sentences": [
+    "$Main Gallery$ refers to exactly one $gallery$ where name is \"Main\".",
+    "The $Humidity$ of $Main Gallery$ must be at most <maximum humidity> per calendar month."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "r1",
+        "type": "reading",
+        "fields": {
+          "gallery": "g1",
+          "humidity": 50,
+          "measured on": "2026-06-03"
+        }
+      },
+      {
+        "id": "r2",
+        "type": "reading",
+        "fields": {
+          "gallery": "g1",
+          "humidity": 64,
+          "measured on": "2026-06-20"
+        }
+      },
+      {
+        "id": "r3",
+        "type": "reading",
+        "fields": {
+          "gallery": "g1",
+          "humidity": 90,
+          "measured on": "2026-05-30"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "g1"
+      ],
+      "counts": {
+        "value": 57,
+        "threshold": 55
+      }
+    }
+  ]
+}

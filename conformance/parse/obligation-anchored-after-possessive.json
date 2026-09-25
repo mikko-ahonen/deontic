@@ -1,0 +1,28 @@
+{
+  "source": "Every $loan$ must @be returned@ within #14 days# after the $loan$'s due on.",
+  "note": "An anchor may also be a field reached by the possessive from an anaphoric noun (rule 4).",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "loan",
+      "every": true
+    },
+    "predicate": {
+      "verb": "be returned",
+      "time": {
+        "kind": "within_after",
+        "duration": {
+          "value": 14,
+          "unit": "day"
+        },
+        "event": {
+          "term": "loan",
+          "anaphora": true,
+          "path": [
+            "due on"
+          ]
+        }
+      }
+    }
+  }
+}

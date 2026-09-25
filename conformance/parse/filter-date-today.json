@@ -1,0 +1,31 @@
+{
+  "source": "$Overdue Loan$ means any $loan$ where due on is before today and returned on is empty.",
+  "note": "`today` is the evaluation date, an input; it is never the wall clock.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Overdue Loan",
+    "type": {
+      "term": "loan"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "before",
+          "path": [
+            "due on"
+          ],
+          "value": {
+            "today": true
+          }
+        },
+        {
+          "op": "is_empty",
+          "path": [
+            "returned on"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source": "$Self Approved Loan$ means any $loan$ where approver equals requester.",
+  "note": "`equals` compares two fields of the same entity; `is` compares a field with a value.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Self Approved Loan",
+    "type": {
+      "term": "loan"
+    },
+    "filter": {
+      "op": "equals",
+      "path": [
+        "approver"
+      ],
+      "other": [
+        "requester"
+      ]
+    }
+  }
+}

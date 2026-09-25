@@ -1,0 +1,92 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "`within the last year` as of 2026-06-01 is the half-open window (2025-06-01, 2026-06-01]; c2's completion is one day too old, c3 completed the wrong course.",
+  "sentences": [
+    "$Handling Training$ means any $course$ tagged mandatory and safety.",
+    "Every $curator$ must @have completed@ $Handling Training$ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "k1",
+        "type": "course",
+        "tags": [
+          "mandatory",
+          "safety"
+        ],
+        "fields": {
+          "title": "Handling"
+        }
+      },
+      {
+        "id": "k2",
+        "type": "course",
+        "tags": [
+          "mandatory"
+        ],
+        "fields": {
+          "title": "Fire"
+        }
+      },
+      {
+        "id": "c1",
+        "type": "curator",
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "c3",
+        "type": "curator",
+        "fields": {
+          "name": "C"
+        }
+      },
+      {
+        "id": "p1",
+        "type": "completion",
+        "fields": {
+          "curator": "c1",
+          "course": "k1",
+          "completed on": "2025-09-01"
+        }
+      },
+      {
+        "id": "p2",
+        "type": "completion",
+        "fields": {
+          "curator": "c2",
+          "course": "k1",
+          "completed on": "2025-05-31"
+        }
+      },
+      {
+        "id": "p3",
+        "type": "completion",
+        "fields": {
+          "curator": "c3",
+          "course": "k2",
+          "completed on": "2026-05-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 1,
+      "outcome": "violated",
+      "offenders": [
+        "c2",
+        "c3"
+      ]
+    }
+  ]
+}

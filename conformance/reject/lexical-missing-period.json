@@ -1,0 +1,7 @@
+{
+  "source": "Every $exhibit$ must @have@ a $catalogue entry$",
+  "note": "A sentence ends with a period in both strictness settings; the period is what separates sentences in a document.",
+  "error": {
+    "code": "missing_period"
+  }
+}

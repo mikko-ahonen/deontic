@@ -1,0 +1,11 @@
+{
+  "source": "$Active Curator$ means any $curator$ where staus is active.",
+  "lexicon": "museum",
+  "note": "Interpretation rule 7: a filter on an undeclared field is an error at resolution, with a suggestion when a near match exists.",
+  "error": {
+    "code": "unknown_field",
+    "type": "curator",
+    "field": "staus",
+    "suggestion": "status"
+  }
+}

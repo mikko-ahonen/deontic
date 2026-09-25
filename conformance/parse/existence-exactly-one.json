@@ -1,0 +1,13 @@
+{
+  "source": "Exactly one $Current Loan Policy$ must @exist@.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "exactly",
+      "value": 1
+    },
+    "subject": {
+      "term": "Current Loan Policy"
+    }
+  }
+}

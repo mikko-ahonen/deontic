@@ -1,0 +1,25 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "As of 2026-06-01 the fourteen days after the due date have not elapsed; nothing has been violated yet.",
+  "sentences": [
+    "$Return$ must occur within #14 days# after $Due Date$."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "due on": "2026-05-25"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "satisfied"
+    }
+  ]
+}

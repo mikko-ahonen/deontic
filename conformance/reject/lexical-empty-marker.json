@@ -1,0 +1,7 @@
+{
+  "source": "Every $ $ must @have@ a $catalogue entry$.",
+  "error": {
+    "code": "empty_marker",
+    "position": 6
+  }
+}

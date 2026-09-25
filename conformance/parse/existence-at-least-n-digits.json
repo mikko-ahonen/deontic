@@ -1,0 +1,14 @@
+{
+  "source": "At least 3 $$curators$$ must @exist@.",
+  "ast": {
+    "shape": "existence",
+    "cardinality": {
+      "op": "at_least",
+      "value": 3
+    },
+    "subject": {
+      "term": "curators",
+      "plural": true
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "source": "$Main Gallery$ must @be inspected@ within the last #6 months#.",
+  "note": "A direct obligation: the subject is a reference, with no quantifier.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "Main Gallery"
+    },
+    "predicate": {
+      "verb": "be inspected",
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 6,
+          "unit": "month"
+        }
+      }
+    }
+  }
+}

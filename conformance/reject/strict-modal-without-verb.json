@@ -1,0 +1,7 @@
+{
+  "source": "Every $exhibit$ must a $catalogue entry$.",
+  "strictness": "strict",
+  "error": {
+    "code": "no_shape"
+  }
+}

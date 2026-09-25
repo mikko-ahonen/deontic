@@ -1,0 +1,21 @@
+{
+  "source": "$Acme Lender$ means any $lender$ where name is exactly \"Acme\".",
+  "note": "Text comparison is case-insensitive unless `exactly` is present; `exactly` sets the `exact` flag on the comparison and never appears as its own node.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Acme Lender",
+    "type": {
+      "term": "lender"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "name"
+      ],
+      "value": {
+        "text": "Acme"
+      },
+      "exact": true
+    }
+  }
+}

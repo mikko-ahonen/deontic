@@ -1,0 +1,8 @@
+{
+  "source": "Every $exhibit must @have@ a catalogue entry.",
+  "note": "Only editors write markers, so an unmatched sigil is always an error. Position is the 0-based offset of the opening sigil.",
+  "error": {
+    "code": "unmatched_marker",
+    "position": 6
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "source": "At most #5 percent# of $$exhibits$$ may @be lent to@ a $lender$ where type is external.",
+  "ast": {
+    "shape": "aggregate",
+    "cardinality": {
+      "op": "at_most",
+      "value": {
+        "value": 5,
+        "unit": "percent"
+      }
+    },
+    "subject": {
+      "term": "exhibits",
+      "plural": true
+    },
+    "modal": "may",
+    "predicate": {
+      "verb": "be lent to",
+      "object": {
+        "term": "lender",
+        "filter": {
+          "op": "is",
+          "path": [
+            "type"
+          ],
+          "value": {
+            "text": "external"
+          }
+        }
+      }
+    }
+  }
+}

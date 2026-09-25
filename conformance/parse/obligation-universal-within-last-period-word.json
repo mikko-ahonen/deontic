@@ -1,0 +1,24 @@
+{
+  "source": "Every $curator$ must @have completed@ $Handling Training$ within the last year.",
+  "note": "A bare period word is a quantity of one unit: `year` is #1 year#.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "curator",
+      "every": true
+    },
+    "predicate": {
+      "verb": "have completed",
+      "object": {
+        "term": "Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 1,
+          "unit": "year"
+        }
+      }
+    }
+  }
+}

@@ -3,10 +3,10 @@
 A constraint language for **obligation**, **permission** and **prohibition** —
 the things a system must do, may do, and must not do.
 
-> **Status: planning.** This repository currently carries the packaging, the
-> conformance-corpus layout and the release pipeline. The grammar, AST and
+> **Status: planning.** This repository carries the packaging, the release
+> pipeline, the design and the conformance corpus. The grammar, AST and
 > parser are not implemented yet. It is published so the name and the corpus
-> format are stable for implementers; do not depend on it for behaviour yet.
+> are stable for implementers; do not depend on it for behaviour yet.
 
 ## Why a language rather than a library
 
@@ -28,7 +28,10 @@ relates to Attempto Controlled English and to deontic logic.
 `conformance/` is the normative test data: source text plus the result every
 implementation must agree on, kept as data rather than Python tests so that an
 implementation in another language can consume it too. An implementation is
-conformant when it reproduces the corpus.
+conformant when it reproduces the corpus. It has three parts — `parse/`
+(source to AST, no lexicon needed), `reject/` (source to error) and
+`evaluate/` (sentences, a world and a date to outcomes) — over one invented
+fixture lexicon, and its README records the language decisions the cases fix.
 
 ## Install
 

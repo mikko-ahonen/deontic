@@ -1,0 +1,10 @@
+{
+  "source": "$Odd Exhibit$ means any $exhibit$ tagged shiny.",
+  "lexicon": "museum",
+  "note": "Tags are closed sets per type in the lexicon.",
+  "error": {
+    "code": "unknown_tag",
+    "type": "exhibit",
+    "tag": "shiny"
+  }
+}

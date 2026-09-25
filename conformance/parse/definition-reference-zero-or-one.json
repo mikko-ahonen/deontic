@@ -1,0 +1,24 @@
+{
+  "source": "$Acting Head$ refers to zero or one $curator$ where status is acting.",
+  "note": "`zero or one` is at most one; `one or more` is at least one. Word forms normalise to the numeric cardinality.",
+  "ast": {
+    "shape": "reference_definition",
+    "name": "Acting Head",
+    "cardinality": {
+      "op": "at_most",
+      "value": 1
+    },
+    "type": {
+      "term": "curator"
+    },
+    "filter": {
+      "op": "is",
+      "path": [
+        "status"
+      ],
+      "value": {
+        "text": "acting"
+      }
+    }
+  }
+}

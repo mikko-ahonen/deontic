@@ -1,0 +1,19 @@
+{
+  "source": "The $Availability$ of $Ticket Kiosk$ must be at least <minimum availability> per calendar month.",
+  "note": "Thresholds that vary per deployment are parameters, never literals.",
+  "ast": {
+    "shape": "threshold",
+    "metric": "Availability",
+    "subject": {
+      "term": "Ticket Kiosk"
+    },
+    "op": "at_least",
+    "value": {
+      "parameter": "minimum availability"
+    },
+    "window": {
+      "value": 1,
+      "unit": "calendar month"
+    }
+  }
+}

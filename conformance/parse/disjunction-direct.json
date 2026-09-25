@@ -1,0 +1,27 @@
+{
+  "source": "$Main Gallery$ must @be inspected@ within the last #6 months# or must @have@ a $Closure Notice$.",
+  "ast": {
+    "shape": "disjunction",
+    "subject": {
+      "term": "Main Gallery"
+    },
+    "predicates": [
+      {
+        "verb": "be inspected",
+        "time": {
+          "kind": "within_last",
+          "duration": {
+            "value": 6,
+            "unit": "month"
+          }
+        }
+      },
+      {
+        "verb": "have",
+        "object": {
+          "term": "Closure Notice"
+        }
+      }
+    ]
+  }
+}

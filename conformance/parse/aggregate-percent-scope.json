@@ -1,0 +1,35 @@
+{
+  "source": "At least #95 percent# of $$curators$$ in scope of $Main Department$ must @have completed@ $Handling Training$ within the last year.",
+  "note": "`in scope of` restricts the denominator to the scope; without it the denominator is every entity the subject names.",
+  "ast": {
+    "shape": "aggregate",
+    "cardinality": {
+      "op": "at_least",
+      "value": {
+        "value": 95,
+        "unit": "percent"
+      }
+    },
+    "subject": {
+      "term": "curators",
+      "plural": true
+    },
+    "scope": {
+      "term": "Main Department"
+    },
+    "modal": "must",
+    "predicate": {
+      "verb": "have completed",
+      "object": {
+        "term": "Handling Training"
+      },
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 1,
+          "unit": "year"
+        }
+      }
+    }
+  }
+}

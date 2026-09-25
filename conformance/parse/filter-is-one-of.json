@@ -1,0 +1,27 @@
+{
+  "source": "$Pending Loan$ means any $loan$ where status is one of requested, approved, shipped.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Pending Loan",
+    "type": {
+      "term": "loan"
+    },
+    "filter": {
+      "op": "is_one_of",
+      "path": [
+        "status"
+      ],
+      "values": [
+        {
+          "text": "requested"
+        },
+        {
+          "text": "approved"
+        },
+        {
+          "text": "shipped"
+        }
+      ]
+    }
+  }
+}

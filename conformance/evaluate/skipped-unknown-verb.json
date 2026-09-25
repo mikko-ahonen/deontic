@@ -1,0 +1,30 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "Permissive strictness: the sentence parses, the verb is not declared, the outcome is skipped. Reporting satisfied here is the failure the outcome model exists to prevent.",
+  "sentences": [
+    "Every $exhibit$ tagged fragile must @be polished@ within the last year."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "x1",
+        "type": "exhibit",
+        "tags": [
+          "fragile"
+        ],
+        "fields": {
+          "title": "Vase"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "skipped",
+      "reason": "unknown_verb",
+      "verb": "be polished"
+    }
+  ]
+}

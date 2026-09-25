@@ -1,0 +1,35 @@
+{
+  "source": "Every $exhibit$ tagged featured must be attested by $Appraisal Service$ claiming appraisal-v2 with confidence at least 0.8 within the last #30 days#.",
+  "note": "A quoted claim is text; a bare claim token is a rubric id. The confidence threshold lives in the sentence.",
+  "ast": {
+    "shape": "attestation",
+    "subject": {
+      "term": "exhibit",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "featured"
+        ]
+      },
+      "every": true
+    },
+    "attesters": [
+      {
+        "attester": {
+          "term": "Appraisal Service"
+        },
+        "claim": {
+          "rubric": "appraisal-v2"
+        },
+        "confidence_at_least": 0.8
+      }
+    ],
+    "window": {
+      "kind": "within_last",
+      "duration": {
+        "value": 30,
+        "unit": "day"
+      }
+    }
+  }
+}

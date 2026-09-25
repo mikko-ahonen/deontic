@@ -1,0 +1,26 @@
+{
+  "source": "Every $gallery$ tagged public must @be inspected@ within the last #6 months#.",
+  "ast": {
+    "shape": "obligation",
+    "subject": {
+      "term": "gallery",
+      "filter": {
+        "op": "tagged",
+        "tags": [
+          "public"
+        ]
+      },
+      "every": true
+    },
+    "predicate": {
+      "verb": "be inspected",
+      "time": {
+        "kind": "within_last",
+        "duration": {
+          "value": 6,
+          "unit": "month"
+        }
+      }
+    }
+  }
+}

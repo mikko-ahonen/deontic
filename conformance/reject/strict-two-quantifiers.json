@@ -1,0 +1,7 @@
+{
+  "source": "Every no $exhibit$ may @be lent to@ a $lender$.",
+  "strictness": "strict",
+  "error": {
+    "code": "no_shape"
+  }
+}

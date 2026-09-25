@@ -1,0 +1,20 @@
+{
+  "source": "The $Humidity$ of $Main Gallery$ must be at most #55 percent# per calendar month.",
+  "note": "`calendar month` is a unit distinct from `month`: windows align to the calendar; durations do not.",
+  "ast": {
+    "shape": "threshold",
+    "metric": "Humidity",
+    "subject": {
+      "term": "Main Gallery"
+    },
+    "op": "at_most",
+    "value": {
+      "value": 55,
+      "unit": "percent"
+    },
+    "window": {
+      "value": 1,
+      "unit": "calendar month"
+    }
+  }
+}

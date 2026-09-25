@@ -1,0 +1,20 @@
+{
+  "source": "$Approving Curator$ means any $curator$ that @approves@ a $loan$.",
+  "note": "`that <verb> <object>` filters by a lexicon predicate; it is how a reverse relation (the loan's approver is this curator) is reached, since the possessive only follows the entity's own reference fields.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Approving Curator",
+    "type": {
+      "term": "curator"
+    },
+    "filter": {
+      "op": "that",
+      "predicate": {
+        "verb": "approves",
+        "object": {
+          "term": "loan"
+        }
+      }
+    }
+  }
+}

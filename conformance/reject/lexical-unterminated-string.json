@@ -1,0 +1,7 @@
+{
+  "source": "$Acme Lender$ means any $lender$ where name contains \"Acme.",
+  "error": {
+    "code": "unterminated_string",
+    "position": 53
+  }
+}

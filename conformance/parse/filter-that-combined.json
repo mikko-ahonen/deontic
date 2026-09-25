@@ -1,0 +1,30 @@
+{
+  "source": "$Busy Senior Curator$ means any $curator$ tagged senior and that @approves@ a $loan$.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Busy Senior Curator",
+    "type": {
+      "term": "curator"
+    },
+    "filter": {
+      "op": "and",
+      "items": [
+        {
+          "op": "tagged",
+          "tags": [
+            "senior"
+          ]
+        },
+        {
+          "op": "that",
+          "predicate": {
+            "verb": "approves",
+            "object": {
+              "term": "loan"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

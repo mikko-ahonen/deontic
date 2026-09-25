@@ -1,0 +1,18 @@
+{
+  "source": "$Return$ must occur within #14 days# after $Due Date$.",
+  "note": "`occur` is core. Both events are lexicon anchors over the same entity type.",
+  "ast": {
+    "shape": "sequencing",
+    "event": {
+      "term": "Return"
+    },
+    "relation": "within_after",
+    "duration": {
+      "value": 14,
+      "unit": "day"
+    },
+    "anchor": {
+      "term": "Due Date"
+    }
+  }
+}

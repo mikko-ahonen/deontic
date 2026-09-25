@@ -1,0 +1,20 @@
+{
+  "source": "$Recent Acquisition$ means any $exhibit$ where acquired on is after 2024-01-01.",
+  "note": "Date literals are ISO 8601 calendar dates.",
+  "ast": {
+    "shape": "term_definition",
+    "name": "Recent Acquisition",
+    "type": {
+      "term": "exhibit"
+    },
+    "filter": {
+      "op": "after",
+      "path": [
+        "acquired on"
+      ],
+      "value": {
+        "date": "2024-01-01"
+      }
+    }
+  }
+}
