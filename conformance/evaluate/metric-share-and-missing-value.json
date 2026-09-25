@@ -1,0 +1,98 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-25",
+  "parameters": {
+    "minimum availability": 90
+  },
+  "note": "`Availability` is a `share` aggregate: the percentage of the device's readings in the calendar month whose `available is true`. d1 has 3 of 4 (75); d2 has no readings in the window, so its value is missing and the constraint skips for it rather than reporting a number.",
+  "sentences": [
+    "$Ticket Kiosk$ refers to exactly one $device$ where name is \"Kiosk\".",
+    "$Turnstile$ refers to exactly one $device$ where name is \"Turnstile\".",
+    "The $Availability$ of $Ticket Kiosk$ must be at least <minimum availability> per calendar month.",
+    "The $Availability$ of $Turnstile$ must be at least <minimum availability> per calendar month."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "d1",
+        "type": "device",
+        "fields": {
+          "name": "Kiosk",
+          "status": "active"
+        }
+      },
+      {
+        "id": "d2",
+        "type": "device",
+        "fields": {
+          "name": "Turnstile",
+          "status": "active"
+        }
+      },
+      {
+        "id": "r1",
+        "type": "reading",
+        "fields": {
+          "device": "d1",
+          "available": true,
+          "measured on": "2026-06-01"
+        }
+      },
+      {
+        "id": "r2",
+        "type": "reading",
+        "fields": {
+          "device": "d1",
+          "available": true,
+          "measured on": "2026-06-08"
+        }
+      },
+      {
+        "id": "r3",
+        "type": "reading",
+        "fields": {
+          "device": "d1",
+          "measured on": "2026-06-15",
+          "available": false
+        }
+      },
+      {
+        "id": "r4",
+        "type": "reading",
+        "fields": {
+          "device": "d1",
+          "available": true,
+          "measured on": "2026-06-22"
+        }
+      },
+      {
+        "id": "r5",
+        "type": "reading",
+        "fields": {
+          "device": "d2",
+          "available": true,
+          "measured on": "2026-05-22"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 2,
+      "outcome": "violated",
+      "offenders": [
+        "d1"
+      ],
+      "counts": {
+        "value": 75,
+        "threshold": 90
+      }
+    },
+    {
+      "sentence": 3,
+      "outcome": "skipped",
+      "reason": "missing_value",
+      "metric": "Availability"
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "`be curated by` is a relation pattern over `curated_by`; the world gives the relation as triples. g3 has no curator.",
+  "sentences": [
+    "Every $gallery$ tagged public must @be curated by@ a $curator$ tagged senior."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "g1",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "Main"
+        }
+      },
+      {
+        "id": "g2",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "East"
+        }
+      },
+      {
+        "id": "g3",
+        "type": "gallery",
+        "tags": [
+          "public"
+        ],
+        "fields": {
+          "name": "West"
+        }
+      }
+    ],
+    "relations": [
+      {
+        "name": "curated_by",
+        "subject": "g1",
+        "object": "c1"
+      },
+      {
+        "name": "curated_by",
+        "subject": "g2",
+        "object": "c2"
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "g2",
+        "g3"
+      ]
+    }
+  ]
+}

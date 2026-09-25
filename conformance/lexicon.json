@@ -97,8 +97,15 @@
         },
         "starts on": "date",
         "due on": "date",
-        "returned on": "date",
-        "status": "text"
+        "returned on": {
+          "kind": "date",
+          "optional": true
+        },
+        "status": "text",
+        "approved on": {
+          "kind": "date",
+          "optional": true
+        }
       },
       "tags": [
         "overdue"
@@ -215,14 +222,23 @@
       }
     }
   },
+  "relations": {
+    "curated_by": {
+      "from": [
+        "gallery"
+      ],
+      "to": "curator",
+      "as": "curator",
+      "description": "the curator responsible for a gallery; recorded as a triple, not a field"
+    }
+  },
   "verbs": {
-    "exist": {
-      "object": "none",
-      "description": "core; the existence shape"
-    },
     "have": {
       "object": "entity",
-      "description": "the subject has the object: either a field of the subject declared as a reference to the object's type is set (to any entity matching the object's filter), or an entity of the object's type exists whose reference field of the subject's type points at the subject"
+      "description": "the subject has the object: either a field of the subject declared as a reference to the object's type is set (to any entity matching the object's filter), or an entity of the object's type exists whose reference field of the subject's type points at the subject",
+      "pattern": {
+        "kind": "reference"
+      }
     },
     "have completed": {
       "synonyms": [
@@ -230,47 +246,108 @@
       ],
       "subject": "curator",
       "object": "course",
-      "description": "a completion exists whose curator is the subject and whose course matches the object; with a time expression, its 'completed on' falls in the window"
+      "description": "a completion exists whose curator is the subject and whose course matches the object; with a time expression, its 'completed on' falls in the window",
+      "pattern": {
+        "kind": "record",
+        "via": "completion",
+        "subject": "curator",
+        "object": "course",
+        "at": "completed on"
+      }
     },
     "be located in": {
       "subject": "exhibit",
       "object": "gallery",
-      "description": "the subject's gallery matches the object"
+      "description": "the subject's gallery matches the object",
+      "pattern": {
+        "kind": "field",
+        "object": "gallery"
+      }
     },
     "be lent to": {
       "subject": "exhibit",
       "object": "lender",
-      "description": "a loan exists whose exhibit is the subject, whose lender matches the object, and whose 'returned on' is empty"
+      "description": "a loan exists whose exhibit is the subject, whose lender matches the object, and whose 'returned on' is empty",
+      "pattern": {
+        "kind": "record",
+        "via": "loan",
+        "subject": "exhibit",
+        "object": "lender",
+        "where": "returned on is empty"
+      }
     },
     "be returned": {
       "subject": "loan",
       "object": "none",
-      "description": "the subject's 'returned on' is set; with an anchored time expression, it falls in the window relative to the anchor"
+      "description": "the subject's 'returned on' is set; with an anchored time expression, it falls in the window relative to the anchor",
+      "pattern": {
+        "kind": "field",
+        "at": "returned on"
+      }
     },
     "be inspected": {
       "subject": "gallery",
       "object": "none",
-      "description": "an inspection exists whose gallery is the subject; with a time expression, its 'inspected on' falls in the window"
+      "description": "an inspection exists whose gallery is the subject; with a time expression, its 'inspected on' falls in the window",
+      "pattern": {
+        "kind": "record",
+        "via": "inspection",
+        "subject": "gallery",
+        "at": "inspected on"
+      }
     },
     "publish": {
       "subject": "curator",
       "object": "report",
-      "description": "a report exists whose author is the subject and which matches the object; with a period, one such report per period"
+      "description": "a report exists whose author is the subject and which matches the object; with a period, one such report per period",
+      "pattern": {
+        "kind": "record",
+        "via": "report",
+        "subject": "author",
+        "object": "self",
+        "at": "published on"
+      }
     },
     "review": {
       "subject": "curator",
       "object": "entity",
-      "description": "declared for the cadence shape; its evaluation is not exercised by the corpus"
+      "description": "declared for the cadence shape; a hook verb with no code in the corpus, so a constraint using it skips",
+      "dated": true
     },
     "approve": {
       "subject": "curator",
       "object": "loan",
-      "description": "a loan matching the object exists whose approver is the subject"
+      "description": "a loan matching the object exists whose approver is the subject",
+      "pattern": {
+        "kind": "record",
+        "via": "loan",
+        "subject": "approver",
+        "object": "self"
+      }
     },
     "be assigned to": {
       "subject": "curator",
       "object": "gallery",
-      "description": "declared for the aggregate count shape; its evaluation is not exercised by the corpus"
+      "description": "declared for the aggregate count shape; a hook verb with no code in the corpus, so a constraint using it skips",
+      "dated": false
+    },
+    "be approved": {
+      "subject": "loan",
+      "object": "none",
+      "pattern": {
+        "kind": "field",
+        "at": "approved on"
+      },
+      "description": "the loan's approved on is set"
+    },
+    "be curated by": {
+      "subject": "gallery",
+      "object": "curator",
+      "pattern": {
+        "kind": "relation",
+        "name": "curated_by"
+      },
+      "description": "the curated_by relation"
     }
   },
   "events": {
@@ -301,16 +378,36 @@
     "Humidity": {
       "of": "gallery",
       "unit": "percent",
-      "description": "the mean of 'humidity' over the readings whose gallery is the subject and whose 'measured on' falls in the window"
+      "description": "the mean of 'humidity' over the readings whose gallery is the subject and whose 'measured on' falls in the window",
+      "pattern": {
+        "kind": "aggregate",
+        "via": "reading",
+        "subject": "gallery",
+        "at": "measured on",
+        "value": "humidity",
+        "function": "mean"
+      }
     },
     "Condition Score": {
       "of": "exhibit",
-      "description": "the subject's 'condition score' field"
+      "description": "the subject's 'condition score' field",
+      "pattern": {
+        "kind": "field",
+        "name": "condition score"
+      }
     },
     "Availability": {
       "of": "device",
       "unit": "percent",
-      "description": "the share of readings whose device is the subject and whose 'measured on' falls in the window that have 'available' true, as a percentage"
+      "description": "the share of readings whose device is the subject and whose 'measured on' falls in the window that have 'available' true, as a percentage",
+      "pattern": {
+        "kind": "aggregate",
+        "via": "reading",
+        "subject": "device",
+        "at": "measured on",
+        "function": "share",
+        "where": "available is true"
+      }
     }
   },
   "attesters": {

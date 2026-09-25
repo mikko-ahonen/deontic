@@ -1,0 +1,69 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "`approve` is a record pattern with object `self`: the witness's object is the loan itself, so the object filter applies to the loan. c2 approved only a closed loan, which the filter excludes; the pattern has no `where` of its own. Compare `be lent to`, whose `where` excludes returned loans before any filter.",
+  "sentences": [
+    "Every $curator$ tagged senior must @approve@ a $loan$ where status is open."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "c2",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "B"
+        }
+      },
+      {
+        "id": "c3",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "C"
+        }
+      },
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "approver": "c1",
+          "status": "open"
+        }
+      },
+      {
+        "id": "l2",
+        "type": "loan",
+        "fields": {
+          "approver": "c2",
+          "status": "closed",
+          "returned on": "2026-01-01"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "violated",
+      "offenders": [
+        "c2",
+        "c3"
+      ]
+    }
+  ]
+}

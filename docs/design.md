@@ -67,8 +67,10 @@ supplying:
 - **entity types, fields, tags, terms and references** — data;
 - **verbs** — declared as data (name, synonyms, what kind of object each
   takes), so that a sentence can be validated with nothing but the lexicon
-  files; what a verb means at evaluation time is the implementation's
-  concern;
+  files; what a verb means at evaluation time is a **pattern** in the same
+  declaration (a path through the recorded world that any implementation
+  can follow) or, when no pattern can express it, code the lexicon ships
+  under the witness contract in [`hooks.md`](hooks.md);
 - **event anchors** for time expressions ("within 30 days after the
   incident" needs the lexicon to say what an incident's date is);
 - **named cadences** that time windows may reference instead of literal

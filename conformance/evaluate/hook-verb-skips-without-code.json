@@ -1,0 +1,37 @@
+{
+  "lexicon": "museum",
+  "as_of": "2026-06-01",
+  "note": "`review` has no pattern and the corpus supplies no code, so the constraint is skipped with `unsupported_verb`. An implementation that has a hook for it outside the corpus may answer otherwise; inside the corpus, this is the answer.",
+  "sentences": [
+    "Every $curator$ tagged senior must @review@ a $loan$ every #6 months#."
+  ],
+  "world": {
+    "entities": [
+      {
+        "id": "c1",
+        "type": "curator",
+        "tags": [
+          "senior"
+        ],
+        "fields": {
+          "name": "A"
+        }
+      },
+      {
+        "id": "l1",
+        "type": "loan",
+        "fields": {
+          "status": "open"
+        }
+      }
+    ]
+  },
+  "outcomes": [
+    {
+      "sentence": 0,
+      "outcome": "skipped",
+      "reason": "unsupported_verb",
+      "verb": "review"
+    }
+  ]
+}

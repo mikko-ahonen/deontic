@@ -1,0 +1,9 @@
+{
+  "source": "Every $exhibit$ must @be located in@ a $gallery$ within the last year.",
+  "lexicon": "museum",
+  "note": "`be located in` is a field pattern with no `at`, so its witnesses carry no date; a time expression on it is an error, never a silent pass (docs/hooks.md §1).",
+  "error": {
+    "code": "undated_verb",
+    "verb": "be located in"
+  }
+}

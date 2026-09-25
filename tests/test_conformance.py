@@ -25,7 +25,7 @@ SHAPES = {
     "unconscious",
 }
 REJECT_CODES = {
-    "unmatched_marker", "empty_marker", "sigil_inside_marker",
+    "undated_verb", "unmatched_marker", "empty_marker", "sigil_inside_marker",
     "unterminated_string", "unbalanced_parenthesis", "missing_period",
     "no_shape", "unresolved_anaphora", "unknown_term", "unknown_field",
     "not_a_reference", "unknown_tag", "type_mismatch", "unknown_verb",
@@ -194,7 +194,7 @@ def test_evaluate_case_structure(case):
         else:
             assert o["outcome"] in ("satisfied", "violated", "skipped")
             if o["outcome"] == "skipped":
-                assert o["reason"] in ("unknown_verb", "unbound_parameter")
+                assert o["reason"] in ("unknown_verb", "unsupported_verb", "unbound_parameter", "missing_value")
     assert_canonical(case["outcomes"], "outcomes")
 
 
@@ -214,6 +214,12 @@ def test_evaluate_world_uses_the_lexicon(case):
             kind = t["fields"][k]
             if isinstance(kind, dict) and kind["kind"] == "reference":
                 assert v in ids, f"{e['id']}.{k} points at unknown id {v}"
+    for r in case["world"].get("relations", []):
+        decl = LEXICON["relations"][r["name"]]
+        assert r["subject"] in ids and r["object"] in ids, r
+        assert LEXICON["types"][next(e["type"] for e in case["world"]["entities"] if e["id"] == r["subject"])] and \
+            next(e["type"] for e in case["world"]["entities"] if e["id"] == r["subject"]) in decl["from"], r
+        assert next(e["type"] for e in case["world"]["entities"] if e["id"] == r["object"]) == decl["to"], r
     for a in case["world"].get("attestations", []):
         assert a["subject"] in ids
         assert a["attester"] in LEXICON["attesters"]
@@ -415,3 +421,78 @@ def test_profile_digest_changes_with_source_dictionary_or_default():
         p = copy.deepcopy(PROFILE)
         mutate(p)
         assert policy_digest(p) != PROFILE_DIGEST["digest"]
+
+
+# --- patterns (docs/hooks.md) ------------------------------------------------------------
+
+def test_every_pattern_names_real_fields_and_types():
+    types = LEXICON["types"]
+    for name, v in LEXICON["verbs"].items():
+        p = v.get("pattern")
+        if p is None:
+            assert "dated" in v, f"hook verb {name} must declare dated"
+            continue
+        assert "dated" not in v, f"{name}: a verb is data or code, never both"
+        if p["kind"] == "field":
+            subj = types[v["subject"]]["fields"]
+            if "object" in p:
+                assert field_kind(subj[p["object"]]) == "reference" and subj[p["object"]]["to"] == v["object"], name
+            if "at" in p:
+                assert field_kind(subj[p["at"]]) == "date", name
+        elif p["kind"] == "record":
+            via = types[p["via"]]["fields"]
+            assert field_kind(via[p["subject"]]) == "reference" and via[p["subject"]]["to"] == v["subject"], name
+            if p.get("object") not in (None, "self"):
+                assert field_kind(via[p["object"]]) == "reference" and via[p["object"]]["to"] == v["object"], name
+            if p.get("object") == "self":
+                assert v["object"] == p["via"], name
+            if "at" in p:
+                assert field_kind(via[p["at"]]) == "date", name
+        elif p["kind"] == "relation":
+            r = LEXICON["relations"][p["name"]]
+            assert v["subject"] in r["from"] and v["object"] == r["to"], name
+        elif p["kind"] == "reference":
+            assert v.get("object", "entity") == "entity", name
+    for name, m in LEXICON["metrics"].items():
+        p = m["pattern"]
+        if p["kind"] == "field":
+            assert field_kind(types[m["of"]]["fields"][p["name"]]) == "number", name
+        else:
+            via = types[p["via"]]["fields"]
+            assert field_kind(via[p["subject"]]) == "reference" and via[p["subject"]]["to"] == m["of"], name
+            if "at" in p:
+                assert field_kind(via[p["at"]]) == "date", name
+            if "value" in p:
+                assert field_kind(via[p["value"]]) == "number", name
+
+
+def test_time_expressions_in_cases_use_dated_verbs():
+    """The undated_verb rule, checked over the parse and evaluate sources."""
+    verbs = LEXICON["verbs"]
+
+    def is_dated(name):
+        v = verbs.get(name)
+        if v is None:
+            return True  # unknown verb: not this test's concern
+        return v.get("dated", False) if "pattern" not in v else "at" in v["pattern"]
+
+    time_words = ("within the last", "within #", "before $", "after $", "after the $")
+    sources = [c["source"] for c in (json.loads(f.read_text()) for f in (CONFORMANCE / "parse").glob("*.json"))]
+    sources += [s for f in (CONFORMANCE / "evaluate").glob("*.json") for s in json.loads(f.read_text())["sentences"]]
+    for src in sources:
+        for part in src.split(" or must "):
+            for verb in re.findall(r"@([^@]+)@", part):
+                if any(w in part for w in time_words) and " must be attested" not in part and " must occur " not in part:
+                    assert is_dated(verb), f"time expression on undated verb {verb!r}: {src}"
+
+
+def test_hooks_module_is_the_contract():
+    import deontic
+    from deontic import hooks
+    assert deontic.ENTRY_POINT_GROUP == hooks.ENTRY_POINT_GROUP == "deontic.lexicons"
+    w = hooks.Witness(object="x1", at=None, via="l1")
+    assert (w.object, w.at, w.via) == ("x1", None, "l1")
+    assert not hooks.dated(lambda s, w, c: [])
+    hook = lambda s, w, c: []  # noqa: E731
+    hook.dated = True
+    assert hooks.dated(hook)

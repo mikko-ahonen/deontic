@@ -46,17 +46,24 @@ sections, all keyed by the name as written inside a marker:
   as a field, with the subject types they hold `from`, the type they point
   `to`, and the word the possessive uses (`as`).
 - `verbs` — declarations with `synonyms`, the required `subject` kind, the
-  `object` kind (`none`, `entity`, or a type or term) and a prose
-  `description` of what the verb means over recorded state. The
-  description is not consumed by an implementation; it is what lets a
-  second implementation reproduce the first's outcomes.
+  `object` kind (`none`, `entity`, or a type or term), and a `pattern`
+  saying how the verb's witnesses are found: a field of the subject, a
+  record pointing back at it, a relation, or the dictionary's own
+  references (`docs/hooks.md` §2). A verb without a pattern is a hook verb
+  whose code the lexicon ships outside the dictionary, and which the corpus
+  treats as unsupported. The prose `description` is for people.
 - `events` (type plus date field), `cadences` (value plus unit), `metrics`
-  (the type they are `of`, a `unit`), and `attesters` (`person`, `role` or
+  (the type they are `of`, a `unit`, and a `pattern`: a number field of the
+  subject or an aggregate over records pointing at it, `docs/hooks.md`
+  §3), and `attesters` (`person`, `role` or
   `system`; a system carries its `rubrics` by id, each with a `version` and
   a `claim`).
 - `definitions` — term and reference sentences shipped with the dictionary.
 - `imports` — other dictionaries by name and version; names resolve across
   all of them and a name declared twice is an error.
+
+**Verbs are data or code, never both.** The schema rejects `dated` on a
+patterned verb, and an implementation rejects a registered hook for one.
 
 **Paths.** A possessive step from a type is either one of its `reference`
 fields, or a relation whose `from` includes the type, addressed by its `as`
@@ -175,6 +182,7 @@ means both. The codes:
 | `object_kind_mismatch` | the object is not of the kind the verb declaration takes | `verb`, `expected`, `actual` |
 | `unknown_rubric` | a bare claim naming no rubric declared next to the attester | `attester`, `rubric` |
 | `confidence_requires_system` | a confidence threshold on an attester that is not a designated system | `attester` |
+| `undated_verb` | a time expression on a verb whose witnesses carry no date (docs/hooks.md §1) | `verb` |
 
 `position` is the 0-based character offset into `source`.
 
@@ -198,17 +206,22 @@ of:
 `offenders` are entity ids of the subject entities for which the predicate
 does not hold, sorted. `counts` is present where the shape counts (existence,
 aggregate, threshold, minimum attesters) and its keys are given per case.
-`reason` is `unknown_verb` (permissive) or `unbound_parameter`.
+`reason` is one of `unknown_verb` (permissive: the verb is not declared),
+`unsupported_verb` (declared without a pattern, and no code runs in the
+corpus; `verb` names it), `unbound_parameter` (`parameter` names it) or
+`missing_value` (a metric has no value for the subject; `metric` names it).
 
 The world is the closed world. Entities are `{id, type, tags, fields}`;
-reference fields hold an entity id; dates are ISO calendar dates. Attestations
+reference fields hold an entity id; dates are ISO calendar dates. Relations
+from the dictionary's `relations` section are `{name, subject, object}`
+triples under `relations`. Attestations
 are `{subject, attester, claim, date, confidence?, system?, attester_id?}`,
-where `attester` names an attester kind from the lexicon. A reference field
-holds the id of the entity it points at; a relation from the dictionary's
-`relations` section may be given the same way, as a field of the subject
-named by the relation's `as` word. What each lexicon verb and metric means
-over this world is stated in prose in `lexicon.json` under `description`,
-which is what makes the expected outcomes reproducible.
+where `attester` names an attester kind from the lexicon. What each lexicon
+verb and metric means over this world is its `pattern` in `lexicon.json`,
+read under `docs/hooks.md`; the prose `description` is for people. Every
+expected outcome follows from the patterns and that document. A verb with
+no pattern is a hook verb, and the corpus supplies no code, so a constraint
+using one is `skipped` with `unsupported_verb`.
 
 Time windows are half-open: `within the last year` as of D covers
 (D − 1 year, D]. `per calendar month` is the calendar month containing D.
