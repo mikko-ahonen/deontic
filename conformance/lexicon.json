@@ -306,13 +306,19 @@
         "subject": "author",
         "object": "self",
         "at": "published on"
-      }
+      },
+      "synonyms": [
+        "publishes"
+      ]
     },
     "review": {
       "subject": "curator",
       "object": "entity",
       "description": "declared for the cadence shape; a hook verb with no code in the corpus, so a constraint using it skips",
-      "dated": true
+      "dated": true,
+      "synonyms": [
+        "reviews"
+      ]
     },
     "approve": {
       "subject": "curator",
@@ -323,7 +329,10 @@
         "via": "loan",
         "subject": "approver",
         "object": "self"
-      }
+      },
+      "synonyms": [
+        "approves"
+      ]
     },
     "be assigned to": {
       "subject": "curator",
