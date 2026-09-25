@@ -1,0 +1,58 @@
+{
+  "$schema": "profile.schema.json",
+  "name": "museum-collection-care",
+  "version": "1",
+  "description": "Fixture profile over the museum dictionary. It exists to exercise the profile format once: pinned dictionaries, declared parameters with and without defaults, local definitions, groups that include groups, external references and an extension block. Its constraints are drawn from the parse cases.",
+  "dictionaries": [{"name": "museum", "version": "1"}],
+  "strictness": "permissive",
+  "parameters": {
+    "maximum humidity": {"kind": "number", "unit": "percent", "default": 55, "description": "Mean humidity a public gallery may reach in a calendar month."},
+    "minimum availability": {"kind": "number", "unit": "percent", "description": "No default: a deployment must bind it or the constraint skips."},
+    "selected version": {"kind": "number", "default": 2}
+  },
+  "definitions": [
+    "$Handling Training$ means any $course$ tagged mandatory and safety.",
+    "$Active Curator$ means any $curator$ where status is active.",
+    "$Current Loan Policy$ refers to the latest $policy document$ where status is approved ordered by effective on, version.",
+    "$Ticket Kiosk$ refers to exactly one $device$ where name is \"Kiosk\"."
+  ],
+  "groups": {
+    "daily": {"title": "Every day", "description": "What must hold whenever anyone looks."},
+    "quarterly": {"title": "Quarterly review", "includes": ["daily"], "extensions": {"example-app": {"trigger": "schedule", "every": "quarter"}}},
+    "annual": {"title": "Annual audit", "includes": ["quarterly"], "refs": [{"scheme": "handbook", "id": "ch. 4"}]},
+    "loans": {"title": "Loans", "description": "A statement grouping: every constraint about lending.", "refs": [{"scheme": "handbook", "id": "ch. 7 §2"}]}
+  },
+  "constraints": [
+    {"id": "fragile-in-storage", "title": "Fragile exhibits are stored",
+     "source": "Every $exhibit$ tagged fragile must @be located in@ a $gallery$ tagged storage.",
+     "groups": ["daily"]},
+    {"id": "no-draft-loans", "title": "Drafts are not lent",
+     "source": "No $exhibit$ tagged draft may @be lent to@ a $lender$.",
+     "groups": ["daily", "loans"], "refs": [{"scheme": "handbook", "id": "ch. 7 §2.1"}]},
+    {"id": "curators-trained",
+     "source": "Every $Active Curator$ must @have completed@ $Handling Training$ within the last year.",
+     "groups": ["quarterly"]},
+    {"id": "senior-curator-exists",
+     "source": "At least one $curator$ tagged senior must @exist@.",
+     "groups": ["daily"]},
+    {"id": "gallery-humidity",
+     "source": "The $Humidity$ of $Main Gallery$ must be at most <maximum humidity> per calendar month.",
+     "groups": ["daily"]},
+    {"id": "kiosk-availability",
+     "source": "The $Availability$ of $Ticket Kiosk$ must be at least <minimum availability> per calendar month.",
+     "groups": ["quarterly"]},
+    {"id": "policy-attested",
+     "source": "$Current Loan Policy$ must be attested by a $Registrar$ every year.",
+     "groups": ["annual"], "refs": [{"scheme": "handbook", "id": "ch. 4 §1"}]},
+    {"id": "featured-appraised",
+     "source": "Every $exhibit$ tagged featured must be attested by $Appraisal Service$ claiming appraisal-v2 with confidence at least 0.8 within the last #30 days#.",
+     "groups": ["quarterly"]},
+    {"id": "loans-returned",
+     "source": "$Return$ must occur within #14 days# after $Due Date$.",
+     "groups": ["daily", "loans"]},
+    {"id": "policy-version",
+     "source": "Exactly one $policy document$ where version is <selected version> must @exist@.",
+     "groups": ["annual"], "extensions": {"example-app": {"severity": "low"}}}
+  ],
+  "extensions": {"example-app": {"owner": "collections team"}}
+}

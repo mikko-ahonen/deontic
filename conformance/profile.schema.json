@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mikko-ahonen/deontic/conformance/profile.schema.json",
+  "title": "deontic profile",
+  "description": "A policy: the constraints an implementation evaluates together, the dictionaries they are written against at pinned versions, the parameters they take, and the groups they belong to. What a group means to the application (a release stage, a clause of a standard, a review cadence) is the application's business and lives in `extensions`; the language sees only names, membership and inclusion.",
+  "type": "object",
+  "properties": {
+    "$schema": {"type": "string"},
+    "name": {"$ref": "#/$defs/identifier"},
+    "version": {"$ref": "#/$defs/version"},
+    "description": {"type": "string"},
+    "dictionaries": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The dictionaries the sentences are written against, pinned. Names resolve across all of them.",
+      "items": {
+        "type": "object",
+        "properties": {"name": {"$ref": "#/$defs/identifier"}, "version": {"$ref": "#/$defs/version"}},
+        "required": ["name", "version"],
+        "additionalProperties": false
+      }
+    },
+    "strictness": {"enum": ["permissive", "strict"], "description": "Overrides the dictionaries' setting for this profile."},
+    "parameters": {
+      "type": "object",
+      "description": "Declarations of the `<name>` parameters the sentences use. Values are bound at evaluation time; a declared default is used when no binding is given, and a parameter with neither skips the constraint with `unbound_parameter`.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "kind": {"enum": ["number", "text", "date", "boolean"]},
+          "unit": {"type": "string", "description": "number only: the unit a quantity must carry to be compared (`percent`)."},
+          "default": {"type": ["number", "string", "boolean"]},
+          "description": {"type": "string"}
+        },
+        "required": ["kind"],
+        "additionalProperties": false
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "description": "Term and reference sentences local to this profile, in the storage form.",
+      "items": {"$ref": "#/$defs/sentence"}
+    },
+    "groups": {
+      "type": "object",
+      "description": "Named groups of constraints. `includes` forms a DAG: a group's members are its own plus those of every group it includes. Keyed by group name.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "includes": {"type": "array", "items": {"$ref": "#/$defs/identifier"}, "uniqueItems": true},
+          "refs": {"$ref": "#/$defs/refs"},
+          "extensions": {"$ref": "#/$defs/extensions"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {"$ref": "#/$defs/identifier", "description": "Stable within the profile across edits; what outcomes, verdicts and suppressions name."},
+          "source": {"$ref": "#/$defs/sentence"},
+          "title": {"type": "string"},
+          "description": {"type": "string"},
+          "groups": {"type": "array", "items": {"$ref": "#/$defs/identifier"}, "uniqueItems": true},
+          "refs": {"$ref": "#/$defs/refs"},
+          "extensions": {"$ref": "#/$defs/extensions"}
+        },
+        "required": ["id", "source"],
+        "additionalProperties": false
+      }
+    },
+    "extensions": {"$ref": "#/$defs/extensions"}
+  },
+  "required": ["name", "version", "dictionaries", "constraints"],
+  "additionalProperties": false,
+
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "pattern": "^[^$@#<>\"]+$"},
+    "version": {"type": "string", "pattern": "^\\d+(\\.\\d+){0,2}$"},
+    "sentence": {"type": "string", "pattern": "\\.$"},
+    "refs": {
+      "type": "array",
+      "description": "Where this comes from outside the language: a clause of a standard, a check id, a ticket. `scheme` says what kind of thing `id` names.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scheme": {"$ref": "#/$defs/identifier"},
+          "id": {"type": "string", "minLength": 1},
+          "note": {"type": "string"}
+        },
+        "required": ["scheme", "id"],
+        "additionalProperties": false
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Application data the language ignores and preserves, keyed by the application's name so two applications never collide.",
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"type": "object"}
+    }
+  }
+}

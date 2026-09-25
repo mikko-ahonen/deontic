@@ -302,3 +302,116 @@ def test_lexicon_definitions_name_only_declared_things():
         assert d.endswith(".")
         for t in marked_terms(d)[1:]:
             assert t in known, (d, t)
+
+
+# --- profile ------------------------------------------------------------------------------
+
+PROFILE = json.loads((CONFORMANCE / "profile.json").read_text())
+PROFILE_SCHEMA = json.loads((CONFORMANCE / "profile.schema.json").read_text())
+PROFILE_DIGEST = json.loads((CONFORMANCE / "profile.digest.json").read_text())
+
+
+def test_profile_matches_schema():
+    jsonschema = pytest.importorskip("jsonschema")
+    jsonschema.Draft202012Validator.check_schema(PROFILE_SCHEMA)
+    jsonschema.validate(PROFILE, PROFILE_SCHEMA)
+
+
+def test_profile_pins_the_fixture_dictionary():
+    assert {"name": LEXICON["name"], "version": LEXICON["version"]} in PROFILE["dictionaries"]
+
+
+def test_profile_constraint_ids_are_unique():
+    ids = [c["id"] for c in PROFILE["constraints"]]
+    assert len(ids) == len(set(ids))
+
+
+def test_profile_groups_form_a_dag_and_are_declared():
+    groups = PROFILE.get("groups", {})
+    for c in PROFILE["constraints"]:
+        assert set(c.get("groups", [])) <= set(groups), c["id"]
+    for name, g in groups.items():
+        assert set(g.get("includes", [])) <= set(groups), name
+
+    def reaches(start, target, seen=()):
+        for inc in groups[start].get("includes", []):
+            if inc == target or (inc not in seen and reaches(inc, target, seen + (start,))):
+                return True
+        return False
+
+    for name in groups:
+        assert not reaches(name, name), f"group {name} includes itself"
+
+
+def test_profile_parameters_declared_and_used():
+    declared = set(PROFILE.get("parameters", {}))
+    used = set()
+    for c in PROFILE["constraints"]:
+        used |= set(re.findall(r"<([^<>]+)>", c["source"]))
+    for d in PROFILE.get("definitions", []):
+        used |= set(re.findall(r"<([^<>]+)>", d))
+    assert used <= declared, f"undeclared parameters: {used - declared}"
+    assert declared <= used, f"declared but unused parameters: {declared - used}"
+
+
+def test_profile_sentences_name_only_declared_or_defined_things():
+    known = lexicon_names()
+    for d in PROFILE.get("definitions", []):
+        known.add(marked_terms(d)[0])
+        for t in marked_terms(d)[1:]:
+            assert t in known, (d, t)
+    for c in PROFILE["constraints"]:
+        for t in marked_terms(c["source"]):
+            assert t in known, (c["id"], t)
+
+
+def digest_input(profile):
+    d = {
+        "name": profile["name"],
+        "version": profile["version"],
+        "dictionaries": profile["dictionaries"],
+        "constraints": sorted(
+            [{"id": c["id"], "source": c["source"]} for c in profile["constraints"]],
+            key=lambda c: c["id"]),
+    }
+    for k in ("strictness", "parameters", "definitions"):
+        if k in profile:
+            d[k] = profile[k]
+    return d
+
+
+def policy_digest(profile):
+    import hashlib
+    canon = json.dumps(digest_input(profile), sort_keys=True, separators=(",", ":"),
+                       ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(canon).hexdigest()
+
+
+def test_profile_digest_rule_is_reproducible():
+    assert PROFILE_DIGEST["algorithm"] == "sha256"
+    assert policy_digest(PROFILE) == PROFILE_DIGEST["digest"]
+
+
+def test_profile_digest_ignores_prose_groups_refs_and_extensions():
+    import copy
+    p = copy.deepcopy(PROFILE)
+    p["description"] = "changed"
+    p["constraints"][0]["title"] = "changed"
+    p["constraints"][0]["groups"] = []
+    p["constraints"][0]["refs"] = [{"scheme": "x", "id": "y"}]
+    p["groups"]["daily"]["title"] = "changed"
+    p["extensions"] = {"other": {"k": 1}}
+    assert policy_digest(p) == PROFILE_DIGEST["digest"]
+
+
+def test_profile_digest_changes_with_source_dictionary_or_default():
+    import copy
+    for mutate in (
+        lambda p: p["constraints"][0].__setitem__("source", p["constraints"][0]["source"].replace("fragile", "featured")),
+        lambda p: p["dictionaries"][0].__setitem__("version", "2"),
+        lambda p: p["parameters"]["maximum humidity"].__setitem__("default", 60),
+        lambda p: p["definitions"].pop(),
+    ):
+        p = copy.deepcopy(PROFILE)
+        mutate(p)
+        assert policy_digest(p) != PROFILE_DIGEST["digest"]

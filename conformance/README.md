@@ -14,6 +14,9 @@ parse or evaluate.
     conformance/
       dictionary.schema.json   JSON Schema for a dictionary, a lexicon's data half
       lexicon.json             the fixture dictionary every case that needs one uses
+      profile.schema.json      JSON Schema for a profile, a policy
+      profile.json             a fixture profile over the museum dictionary
+      profile.digest.json      the fixture profile's policy digest, for checking the rule
       ast.schema.json          JSON Schema for the `ast` of a parse case
       parse/*.json        source → expected AST (no lexicon needed)
       reject/*.json       source → the error it must be rejected with
@@ -59,6 +62,43 @@ sections, all keyed by the name as written inside a marker:
 fields, or a relation whose `from` includes the type, addressed by its `as`
 word. `not_a_reference` is the error for any other field. Traversal through
 a `list` field is not fixed by any case and is therefore not in the language.
+
+## Profile
+
+A profile is a policy: the constraints evaluated together. `profile.schema.json`
+is normative; `profile.json` is the fixture. Its parts:
+
+- `dictionaries` — the dictionaries the sentences are written against, each
+  pinned to a version. Names resolve across all of them.
+- `parameters` — declarations of the `<name>` parameters the sentences use:
+  a kind, an optional unit, an optional default. Values are **bindings**,
+  supplied at evaluation time as a map from name to value (the `parameters`
+  key of an evaluate case). A declared default applies when no binding is
+  given; with neither, the constraint skips with `unbound_parameter`.
+- `definitions` — term and reference sentences local to the profile.
+- `constraints` — each with a stable `id` and its `source` sentence, and
+  optionally a title, the `groups` it belongs to, `refs` to things outside
+  the language (a clause of a standard, a check id) and `extensions`.
+- `groups` — named groups whose `includes` form a DAG; a group's members are
+  its own constraints plus those of everything it includes. What a group is
+  to the application (a review cadence, a release stage, a statement of a
+  standard) is not the language's concern.
+- `extensions` — application data keyed by application name, which the
+  language ignores and preserves. This is where a cadence's trigger, a
+  verdict kind's binding or a constraint's severity live.
+
+**Policy digest.** The identity of a policy is the SHA-256 of the canonical
+JSON (keys sorted, no insignificant whitespace, UTF-8, `ensure_ascii`
+off) of this object:
+
+    { "name", "version", "strictness", "dictionaries", "parameters",
+      "definitions", "constraints": [ { "id", "source" }, ... sorted by id ] }
+
+with absent keys omitted. Titles, descriptions, groups, refs and extensions
+do not change what is evaluated, so they do not change the digest; an
+implementation records its own version next to the digest, not in it.
+`profile.digest.json` holds the fixture's digest so a second implementation
+can check its canonicalisation.
 
 **Names.** A marked name must be declared in exactly one role: type, plural
 of a type, defined term or reference, event, cadence, metric, or attester

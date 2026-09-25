@@ -1,0 +1,5 @@
+{
+  "algorithm": "sha256",
+  "digest": "f5cb7cdd589f8a70bdb95074c6cbb3737ddfb9e7d477ae7ae6b34817defe59b8",
+  "note": "SHA-256 of the canonical JSON of profile.json's digest input; see README, Profile."
+}

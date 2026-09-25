@@ -83,7 +83,10 @@ supplying:
 A language is the core plus one lexicon. The core ships with none. The data
 half of a lexicon is a **dictionary**, whose file format is
 `conformance/dictionary.schema.json`; the museum fixture in the corpus is
-the first dictionary written against it.
+the first dictionary written against it. Constraints are evaluated together
+as a **profile** (`conformance/profile.schema.json`): sentences with stable
+ids, written against pinned dictionaries, taking declared parameters, and
+grouped by names whose meaning belongs to the application.
 
 ## 3. What the core refuses
 
