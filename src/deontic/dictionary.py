@@ -100,8 +100,67 @@ def _declare(d: Dictionary, name: str, role: str, canonical: str | None = None):
     d.canonical[key] = canonical or name
 
 
-def load(source: dict | str | Path) -> Dictionary:
-    data = source if isinstance(source, dict) else json.loads(Path(source).read_text())
+SECTIONS = ("types", "relations", "verbs", "events", "cadences", "metrics", "attesters")
+
+
+def _read(source) -> dict:
+    return source if isinstance(source, dict) else json.loads(Path(source).read_text())
+
+
+def _compose(data: dict, imports, stack: tuple = ()) -> dict:
+    """The dictionary with its `imports` folded in: names resolve across all
+    of them, and a name declared twice is an error (dictionary.schema.json).
+    Imported definitions come before the importer's own. A dictionary reached
+    twice through different imports (a diamond) is included once."""
+    if not data.get("imports"):
+        return data
+    me = (data.get("name"), data.get("version"))
+    merged = {s: {} for s in SECTIONS}
+    origin: dict[tuple[str, str], str] = {}
+    definitions: list[str] = []
+    included: set[tuple[str, str]] = set()
+
+    def add(d: dict, label: str):
+        for section in SECTIONS:
+            for name, decl in d.get(section, {}).items():
+                if name in merged[section]:
+                    raise DictionaryError(
+                        f"{section[:-1]} {name!r} declared twice: in {origin[(section, name)]} and {label}")
+                merged[section][name] = decl
+                origin[(section, name)] = label
+        definitions.extend(d.get("definitions", []))
+
+    def visit(d: dict, path: tuple):
+        for imp in d.get("imports", []):
+            ident = (imp["name"], imp["version"])
+            if ident in path:
+                raise DictionaryError(f"import cycle: {' -> '.join(n for n, _ in path + (ident,))}")
+            if ident in included:
+                continue
+            if imports is None:
+                raise DictionaryError(f"import {ident[0]} {ident[1]}: no imports resolver given to load()")
+            src = imports(*ident) if callable(imports) else imports.get(ident)
+            if src is None:
+                raise DictionaryError(f"import {ident[0]} {ident[1]}: not found")
+            sub = _read(src)
+            visit(sub, path + (ident,))
+            included.add(ident)
+            add(sub, f"{ident[0]} {ident[1]}")
+
+    visit(data, stack + (me,))
+    add(data, f"{me[0]} {me[1]}")
+    out = {k: v for k, v in data.items() if k not in SECTIONS + ("imports", "definitions")}
+    out.update({s: v for s, v in merged.items() if v})
+    if definitions:
+        out["definitions"] = definitions
+    return out
+
+
+def load(source: dict | str | Path, *, imports=None) -> Dictionary:
+    """Load a dictionary. `imports` resolves the dictionary's `imports`: a
+    mapping from (name, version) to a dictionary (dict or path), or a callable
+    (name, version) -> dictionary. Without imports it is not needed."""
+    data = _compose(_read(source), imports)
     d = Dictionary(data=data)
     d.types = data.get("types", {})
     for name, t in d.types.items():
